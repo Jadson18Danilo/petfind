@@ -1,18 +1,80 @@
-/* globals.css */
-html,
-body {
-  padding: 0;
-  margin: 0;
-  background: #f9fafb;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@import "tailwindcss";
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-base, #f8fafc);
+    color: var(--text-base, #0f172a);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+@layer components {
+  .page {
+    @apply min-h-screen bg-brand-warm-50;
+  }
 
-* {
-  box-sizing: border-box;
+  .container-page {
+    @apply max-w-5xl mx-auto px-4;
+  }
+
+  .card {
+    @apply bg-white border border-slate-200 rounded-2xl shadow-elev-md;
+  }
+
+  .card-hover {
+    @apply transition hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-warm-500 to-brand-warm-600 text-white px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-brand-warm-300 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white text-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-slate-700 px-3 py-2 text-sm font-medium hover:bg-slate-100;
+  }
+
+  .btn-light {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 text-white px-4 py-2 text-sm font-medium hover:bg-white/20;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-warm-200;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-700;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full bg-slate-100 text-slate-700 px-2.5 py-1 text-xs font-medium;
+  }
+
+  .section-title {
+    @apply text-2xl font-semibold text-slate-900;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-slate-600;
+  }
 }

@@ -5,12 +5,14 @@ const { initMatchModel } = require('../../../../src/server/models/Match');
 const { initMessageModel } = require('../../../../src/server/models/Message');
 const { getTokenFromRequest, verifyToken } = require('../../../../src/server/auth/jwt');
 const { Op } = require('sequelize');
+const { applyCors } = require('../../../../src/server/http/cors');
 
 const createSchema = z.object({
   text: z.string().min(1),
 });
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
   const matchId = Number(req.query.id);
   if (!matchId) {
     return res.status(400).json({ error: 'Invalid match id' });

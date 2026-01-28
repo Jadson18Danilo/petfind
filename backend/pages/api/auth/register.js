@@ -3,6 +3,7 @@ const { z } = require('zod');
 const { ensureDatabase } = require('../../../src/server/db');
 const { initUserModel } = require('../../../src/server/models/User');
 const { signToken, setAuthCookie } = require('../../../src/server/auth/jwt');
+const { applyCors } = require('../../../src/server/http/cors');
 
 const schema = z.object({
   name: z.string().min(2),
@@ -11,6 +12,7 @@ const schema = z.object({
 });
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

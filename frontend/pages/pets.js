@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Header from '../src/components/Header';
 import { listPets, createPet } from '../src/services/pets';
 
 export default function Pets() {
@@ -34,20 +35,21 @@ export default function Pets() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="page">
+      <Header />
+      <div className="container-page py-10">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Pets</h1>
-          <span className="text-sm text-gray-600">Total: {pets.length}</span>
+          <h1 className="section-title">Pets</h1>
+          <span className="badge">Total: {pets.length}</span>
         </div>
 
-        <div className="mt-4 bg-white border rounded-xl p-6">
-          <h2 className="font-semibold">Cadastrar pet</h2>
+        <div className="card mt-4 p-6">
+          <h2 className="text-lg font-semibold">Cadastrar pet</h2>
           <form className="mt-3 grid md:grid-cols-2 gap-3" onSubmit={handleCreate}>
             <div>
-              <label className="block text-sm font-medium">Nome</label>
+              <label className="label">Nome</label>
               <input
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -55,9 +57,9 @@ export default function Pets() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Espécie</label>
+              <label className="label">Espécie</label>
               <input
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 value={species}
                 onChange={(e) => setSpecies(e.target.value)}
                 required
@@ -65,7 +67,7 @@ export default function Pets() {
             </div>
 
             <div className="md:col-span-2">
-              <button className="w-full bg-black text-white rounded px-3 py-2" type="submit">
+              <button className="btn w-full" type="submit">
                 Cadastrar pet
               </button>
             </div>
@@ -77,9 +79,11 @@ export default function Pets() {
 
         <div className="mt-6 grid md:grid-cols-3 gap-4">
           {pets.map((pet) => (
-            <div key={pet.id} className="bg-white border rounded-lg p-4">
-              <div className="font-semibold">{pet.name}</div>
-              <div className="text-sm text-gray-600">{pet.species}</div>
+            <div key={pet.id} className="card card-hover p-4">
+              <div className="flex items-center justify-between">
+                <div className="font-semibold">{pet.name}</div>
+                <span className="badge">{pet.species}</span>
+              </div>
             </div>
           ))}
         </div>

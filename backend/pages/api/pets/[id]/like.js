@@ -4,12 +4,14 @@ const { initPetModel } = require('../../../../src/server/models/Pet');
 const { initLikeModel } = require('../../../../src/server/models/Like');
 const { initMatchModel } = require('../../../../src/server/models/Match');
 const { getTokenFromRequest, verifyToken } = require('../../../../src/server/auth/jwt');
+const { applyCors } = require('../../../../src/server/http/cors');
 
 const schema = z.object({
   fromPetId: z.number().int().positive(),
 });
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from '../src/components/Header';
 import { registerUser } from '../src/services/auth';
 
 export default function Register() {
@@ -25,17 +26,18 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="page">
+      <Header />
       <div className="max-w-md mx-auto px-4 py-12">
-        <div className="bg-white border rounded-xl p-6">
-          <h1 className="text-2xl font-bold">Cadastro</h1>
-          <p className="text-sm text-gray-600 mt-1">Crie sua conta para começar.</p>
+        <div className="card p-6">
+          <h1 className="section-title">Cadastro</h1>
+          <p className="section-subtitle mt-1">Crie sua conta para começar.</p>
 
           <form className="mt-5 space-y-3" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-medium">Nome</label>
+              <label className="label">Nome</label>
               <input
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -43,9 +45,9 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Email</label>
+              <label className="label">Email</label>
               <input
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -54,9 +56,9 @@ export default function Register() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium">Senha</label>
+              <label className="label">Senha</label>
               <input
-                className="w-full border rounded px-3 py-2"
+                className="input"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -64,7 +66,7 @@ export default function Register() {
               />
             </div>
 
-            <button className="w-full bg-black text-white rounded px-3 py-2" type="submit">
+            <button className="btn w-full" type="submit">
               Criar conta
             </button>
           </form>

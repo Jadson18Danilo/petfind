@@ -3,8 +3,10 @@ const { initPetModel } = require('../../../src/server/models/Pet');
 const { initMatchModel } = require('../../../src/server/models/Match');
 const { getTokenFromRequest, verifyToken } = require('../../../src/server/auth/jwt');
 const { Op } = require('sequelize');
+const { applyCors } = require('../../../src/server/http/cors');
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }

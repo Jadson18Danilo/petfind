@@ -3,6 +3,7 @@ const { ensureDatabase } = require('../../../src/server/db');
 const { initUserModel } = require('../../../src/server/models/User');
 const { initPetModel } = require('../../../src/server/models/Pet');
 const { getTokenFromRequest, verifyToken } = require('../../../src/server/auth/jwt');
+const { applyCors } = require('../../../src/server/http/cors');
 
 const updateSchema = z.object({
   name: z.string().min(1).optional(),
@@ -16,6 +17,7 @@ const updateSchema = z.object({
 });
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
   const sequelize = await ensureDatabase();
   const User = initUserModel(sequelize);
   const Pet = initPetModel(sequelize);
