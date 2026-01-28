@@ -27,7 +27,8 @@
 
 @layer components {
   .page {
-    @apply min-h-screen bg-brand-warm-50;
+    @apply min-h-screen;
+    background: #fff7f1;
   }
 
   .container-page {
@@ -35,7 +36,8 @@
   }
 
   .card {
-    @apply bg-white border border-slate-200 rounded-2xl shadow-elev-md;
+    @apply bg-white border border-slate-200 rounded-2xl;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.12);
   }
 
   .card-hover {
@@ -43,7 +45,8 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-warm-500 to-brand-warm-600 text-white px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95 focus:outline-none focus:ring-2 focus:ring-brand-warm-300 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-white px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95;
+    background: linear-gradient(90deg,#ffa98f,#ff8566);
   }
 
   .btn-secondary {
@@ -59,7 +62,12 @@
   }
 
   .input {
-    @apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-transparent focus:outline-none focus:ring-2 focus:ring-brand-warm-200;
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none;
+  }
+
+  .input:focus {
+    box-shadow: 0 0 0 6px rgba(255,169,143,0.12);
+    border-color: transparent;
   }
 
   .label {
@@ -78,3 +86,14 @@
     @apply text-sm text-slate-600;
   }
 }
+
+/* Fallback brand utility classes for environments where Tailwind custom colors aren't available */
+.bg-brand-warm-50 { background-color: #fff7f1; }
+.bg-brand-warm-100 { background-color: #fff1e6; }
+.bg-brand-warm-200 { background-color: #ffe6d6; }
+.bg-brand-warm-500 { background-color: #ffa98f; }
+.bg-brand-warm-600 { background-color: #ff8566; }
+.text-brand-warm-600 { color: #ff8566; }
+.bg-gradient-brand { background: linear-gradient(135deg,#ffa98f,#ff8566); }
+.from-brand-warm-500 { --tw-gradient-from: #ffa98f; }
+.to-brand-warm-600 { --tw-gradient-to: #ff8566; }
