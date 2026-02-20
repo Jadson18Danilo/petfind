@@ -3,9 +3,6 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
-  "/login": "pages/login.js",
-  "/tutor-profile": "pages/tutor-profile.js",
-  "/tutor-edit": "pages/tutor-edit.js",
-  "/pet-register": "pages/pet-register.js",
-  "/pets": "pages/pets.js"
+  "/match-display": "pages/match-display.js",
+  "/login": "pages/login.js"
 }

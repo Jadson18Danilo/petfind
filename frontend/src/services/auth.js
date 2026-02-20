@@ -19,3 +19,13 @@ export async function getMe() {
   const response = await api.get('/api/me', { withCredentials: true });
   return response.data;
 }
+
+export async function updateMe(payload) {
+  // payload can be FormData or plain object
+  const isForm = payload instanceof FormData;
+  const response = await api.put('/api/me', payload, {
+    withCredentials: true,
+    headers: isForm ? { 'Content-Type': 'multipart/form-data' } : undefined,
+  });
+  return response.data;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Edit, LogOut, Trash2 } from 'lucide-react';
 import Layout from '../src/components/Layout';
 import { useRouter } from 'next/router';
@@ -14,6 +14,24 @@ export default function PerfilTutor({
   tutorData
 }) {
   const router = useRouter();
+
+  const [me, setMe] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    import('../src/services/auth').then(({ getMe }) => getMe().then((data) => { if (mounted) setMe(data); }).catch(() => {}));
+    return () => { mounted = false; };
+  }, []);
+
+  const tutorSource = tutorData || me || {};
+  const tutor = {
+    nome: tutorSource.nome ?? tutorSource.name ?? '',
+    email: tutorSource.email ?? '',
+    telefone: tutorSource.telefone ?? '',
+    cidade: tutorSource.cidade ?? '',
+    estado: tutorSource.estado ?? '',
+    avatar: tutorSource.avatar ?? tutorSource.foto ?? '',
+  };
 
   const formatarIdade = (idade) => {
     const idadeNum = parseInt(idade, 10);
@@ -65,7 +83,6 @@ export default function PerfilTutor({
         <main className="max-w-4xl mx-auto px-6 py-12">
           <div className="mb-12 flex justify-between items-center">
             <div>
-              <h2 className="text-4xl font-bold">Meu Perfil</h2>
               <p className="text-[#4a5565]">Gerencie suas informações e seus pets</p>
             </div>
 
@@ -84,8 +101,22 @@ export default function PerfilTutor({
               </button>
             </div>
 
-            <p><strong>Nome:</strong> {tutorData?.nome || '-'}</p>
-            <p><strong>Email:</strong> {tutorData?.email || '-'}</p>
+            <div className="flex items-center gap-6 mb-4">
+              <div className="size-24 rounded-full overflow-hidden bg-gray-100">
+                {tutor.avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={tutor.avatar} alt="Avatar" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">Sem foto</div>
+                )}
+              </div>
+              <div>
+                <p><strong>Nome:</strong> {tutor.nome || '-'}</p>
+                <p><strong>Email:</strong> {tutor.email || '-'}</p>
+                <p><strong>Telefone:</strong> {tutor.telefone || '-'}</p>
+                <p><strong>Local:</strong> {tutor.cidade ? `${tutor.cidade}${tutor.estado ? ` - ${tutor.estado}` : ''}` : '-'}</p>
+              </div>
+            </div>
           </div>
 
           <div className="bg-white rounded-2xl shadow-lg p-8">

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getMe, logoutUser } from '../services/auth';
@@ -37,24 +38,14 @@ export default function Header() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8">
-              {/* Inline fallback logo (removed external svg import) */}
-              <svg className="block w-full h-full" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden>
-                <defs>
-                  <linearGradient id="logo_grad" x1="0" x2="1">
-                    <stop offset="0%" stopColor="#FFA98F" />
-                    <stop offset="100%" stopColor="#FF8566" />
-                  </linearGradient>
-                </defs>
-                <circle cx="16" cy="12" r="6" stroke="url(#logo_grad)" strokeWidth="2.5" fill="rgba(255,168,143,0.06)" />
-                <path d="M10 22c1-2 3-3 6-3s5 1 6 3" stroke="#F6AD55" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-                <circle cx="11.5" cy="11" r="1.2" fill="#FF8566" />
-                <circle cx="20.5" cy="11" r="1.2" fill="#FF8566" />
-              </svg>
-            </div>
+       
 
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent">
-              petfind
+            <span className="inline-flex items-center justify-center mr-[5px]" aria-hidden>
+              <Image src="/icons/iconicone" alt="Ícone de pata" width={24} height={24} priority />
+            </span>
+
+            <h1 className="text-2xl font-bold text-[#ffa98f]">
+              PetFind
             </h1>
           </Link>
 
