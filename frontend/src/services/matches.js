@@ -19,3 +19,22 @@ export async function sendMessage(matchId, text) {
   const response = await api.post(`/api/matches/${matchId}/messages`, { text }, { withCredentials: true });
   return response.data;
 }
+
+export async function getUnreadMessagesCount() {
+  try {
+    const response = await api.get('/api/matches/unread/count', { withCredentials: true });
+    return response.data?.count || 0;
+  } catch (err) {
+    console.error('Failed to get unread count', err);
+    return 0;
+  }
+}
+
+export async function markMessagesAsRead(matchId) {
+  try {
+    const response = await api.put(`/api/matches/${matchId}/messages/read`, {}, { withCredentials: true });
+    return response.data;
+  } catch (err) {
+    console.error('Failed to mark as read', err);
+  }
+}

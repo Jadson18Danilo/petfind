@@ -1,13 +1,39 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../src/components/Layout';
 import { Heart, MessageCircle, User, Plus, X } from 'lucide-react';
 import { useRouter } from 'next/router';
+import { listPets } from '../src/services/pets';
 
 export default function PetEdit({ petData: initialPetData = null }) {
   const router = useRouter();
+  const petId = router.query.id ? Number(router.query.id) : null;
 
-  const petData = initialPetData || null;
+  const [petData, setPetData] = useState(initialPetData || null);
+  const [loading, setLoading] = useState(!!petId);
+
+  // Load pet from API if ID is provided in query
+  useEffect(() => {
+    if (!petId) return;
+
+    let mounted = true;
+    async function loadPet() {
+      try {
+        const allPets = await listPets();
+        const pet = Array.isArray(allPets) ? allPets.find(p => p.id === petId) : null;
+        if (!mounted) return;
+        setPetData(pet || null);
+      } catch (err) {
+        console.error('Error loading pet', err);
+        if (mounted) setPetData(null);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    loadPet();
+    return () => { mounted = false; };
+  }, [petId]);
 
   const initialMainPhoto = petData?.mainPhoto || null;
 
@@ -108,15 +134,21 @@ export default function PetEdit({ petData: initialPetData = null }) {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="section-title">Editar perfil do pet</h2>
-          <div className="flex items-center gap-2">
-            <button onClick={() => router.push('/match-display')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Ir para Match">
-              <Heart />
-            </button>
-            <button onClick={() => router.push('/chat-on')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Chat">
-              <MessageCircle />
-            </button>
+        {loading ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <p className="text-gray-500">Carregando informações do pet...</p>
+          </div>
+        ) : (
+          <>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="section-title">Editar perfil do pet</h2>
+              <div className="flex items-center gap-2">
+                <button onClick={() => router.push('/match-display')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Ir para Match">
+                  <Heart />
+                </button>
+                <button onClick={() => router.push('/chat-on')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Chat">
+                  <MessageCircle />
+                </button>
             <button onClick={() => router.push('/tutor-profile')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Perfil">
               <User />
             </button>
@@ -247,6 +279,8 @@ export default function PetEdit({ petData: initialPetData = null }) {
             <button type="submit" className="btn">Salvar</button>
           </div>
         </form>
+          </>
+        )}
       </div>
     </Layout>
   );

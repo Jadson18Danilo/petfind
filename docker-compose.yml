@@ -36,7 +36,7 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "npx sequelize-cli db:migrate && npm run dev"
+    command: npm run db:migrate && npm run dev
 
   adminer:
     image: adminer

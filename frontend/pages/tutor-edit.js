@@ -221,6 +221,6 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
           </div>
         </main>
       </div>
-    </Layoute=>
+    </Layout>
   );
 }

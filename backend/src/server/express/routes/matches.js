@@ -163,4 +163,89 @@ router.post('/:id/messages', async (req, res) => {
   }
 });
 
+router.get('/unread/count', async (req, res) => {
+  try {
+    const token = getTokenFromRequest(req);
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const payload = verifyToken(token);
+    const sequelize = await ensureDatabase();
+
+    const Message = initMessageModel(sequelize);
+
+    const unreadCount = await Message.count({
+      where: {
+        isRead: false,
+        senderId: { [Op.ne]: payload.id },
+      },
+    });
+
+    return res.json({ count: unreadCount });
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
+router.put('/:id/messages/read', async (req, res) => {
+  const matchId = Number(req.params.id);
+  if (!matchId) {
+    return res.status(400).json({ error: 'Invalid match id' });
+  }
+
+  try {
+    const token = getTokenFromRequest(req);
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const payload = verifyToken(token);
+    const sequelize = await ensureDatabase();
+
+    const Pet = initPetModel(sequelize);
+    const Match = initMatchModel(sequelize);
+    const Message = initMessageModel(sequelize);
+
+    const myPets = await Pet.findAll({ where: { ownerId: payload.id } });
+    const petIds = myPets.map((p) => p.id);
+
+    const match = await Match.findOne({
+      where: {
+        id: matchId,
+        [Op.or]: [
+          { petAId: { [Op.in]: petIds } },
+          { petBId: { [Op.in]: petIds } },
+        ],
+      },
+    });
+
+    if (!match) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+
+    await Message.update(
+      { isRead: true },
+      {
+        where: {
+          matchId,
+          senderId: { [Op.ne]: payload.id },
+        },
+      }
+    );
+
+    return res.json({ message: 'Messages marked as read' });
+  } catch (err) {
+    if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
+  }
+});
+
 module.exports = router;

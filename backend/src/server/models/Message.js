@@ -25,6 +25,11 @@ function initMessageModel(sequelize) {
         type: DataTypes.TEXT,
         allowNull: false,
       },
+      isRead: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     },
     {
       tableName: 'messages',

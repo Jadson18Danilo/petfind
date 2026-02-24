@@ -373,6 +373,6 @@ export default function Pets() {
                 </div>
               </main>
             </div>
-          </Layouttitle=>
+          </Layout>
   );
 }

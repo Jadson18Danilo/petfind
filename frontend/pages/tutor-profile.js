@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Edit, LogOut, Trash2 } from 'lucide-react';
 import Layout from '../src/components/Layout';
 import { useRouter } from 'next/router';
+import { getMe } from '../src/services/auth';
+import { listPets } from '../src/services/pets';
 
 export default function PerfilTutor({
   onNavigateToMatches,
@@ -16,11 +18,51 @@ export default function PerfilTutor({
   const router = useRouter();
 
   const [me, setMe] = useState(null);
+  const [pets, setPets] = useState([]);
+  const [selectedPetId, setSelectedPetId] = useState(null);
 
   useEffect(() => {
     let mounted = true;
-    import('../src/services/auth').then(({ getMe }) => getMe().then((data) => { if (mounted) setMe(data); }).catch(() => {}));
-    return () => { mounted = false; };
+
+    async function loadProfile() {
+      try {
+        const [meData, allPets] = await Promise.all([getMe(), listPets()]);
+        if (!mounted) return;
+
+        setMe(meData);
+
+        const ownedPets = Array.isArray(allPets)
+          ? allPets.filter((pet) => pet.ownerId === meData?.id)
+          : [];
+        setPets(ownedPets);
+
+        const storedId = typeof window !== 'undefined'
+          ? Number(window.localStorage.getItem('activePetId'))
+          : null;
+        const hasStored = storedId && ownedPets.some((pet) => pet.id === storedId);
+        const initialId = hasStored ? storedId : (ownedPets[0]?.id ?? null);
+
+        setSelectedPetId(initialId);
+        if (typeof window !== 'undefined') {
+          if (initialId) {
+            window.localStorage.setItem('activePetId', String(initialId));
+          } else {
+            window.localStorage.removeItem('activePetId');
+          }
+        }
+      } catch (err) {
+        if (!mounted) return;
+        setMe(null);
+        setPets([]);
+        setSelectedPetId(null);
+      }
+    }
+
+    loadProfile();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const tutorSource = tutorData || me || {};
@@ -41,17 +83,29 @@ export default function PerfilTutor({
     return 'Idoso (8+ anos)';
   };
 
-  const pets = petData ? [
-    {
-      id: 1,
-      nome: petData.nome || '-',
-      raca: petData.raca || '-',
-      tipo: petData.especie === 'cachorro' ? 'Cachorro' : (petData.especie === 'gato' ? 'Gato' : '-'),
-      idade: formatarIdade(petData.idade),
-      sexo: petData.sexo === 'macho' ? 'Macho' : (petData.sexo === 'femea' || petData.sexo === 'fêmea' ? 'Fêmea' : '-'),
-      foto: petData.mainPhoto || ''
+  const handleSelectPet = (petId) => {
+    setSelectedPetId(petId);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('activePetId', String(petId));
     }
-  ] : [];
+  };
+
+  const handleVerMatches = (petId) => {
+    handleSelectPet(petId);
+    router.push('/match-display');
+  };
+
+  const mappedPets = Array.isArray(pets)
+    ? pets.map((pet) => ({
+        id: pet.id,
+        nome: pet.nome ?? pet.name ?? '-',
+        raca: pet.raca ?? pet.breed ?? '-',
+        tipo: pet.especie ?? pet.species ?? '-',
+        idade: formatarIdade(pet.idade ?? pet.age ?? pet.ageMonths),
+        sexo: pet.sexo ?? pet.sex ?? '-',
+        foto: pet.mainPhoto || ''
+      }))
+    : [];
 
   const handleSair = () => {
     if (typeof window !== 'undefined' && window.confirm('Deseja realmente sair?')) {
@@ -67,7 +121,7 @@ export default function PerfilTutor({
 
   const handleEditarPet = (petId) => {
     if (onNavigateToEditarPet) return onNavigateToEditarPet(petId);
-    router.push('/pet-edit');
+    router.push(`/pet-edit?id=${petId}`);
   };
 
   const handleExcluirPet = (petId) => {
@@ -120,8 +174,8 @@ export default function PerfilTutor({
           </div>
 
           <div className="bg-white rounded-2xl shadow-lg p-8">
-            <h3 className="text-2xl font-bold mb-6">Meus Pets ({pets.length})</h3>
-            {pets.length === 0 ? (
+            <h3 className="text-2xl font-bold mb-6">Meus Pets ({mappedPets.length})</h3>
+            {mappedPets.length === 0 ? (
               <div className="card p-6 text-center">
                 <p className="text-slate-600">Você ainda não cadastrou pets.</p>
                 <button
@@ -132,7 +186,7 @@ export default function PerfilTutor({
                 </button>
               </div>
             ) : (
-              pets.map((pet) => (
+              mappedPets.map((pet) => (
                 <div key={pet.id} className="border rounded-2xl p-6 mb-4">
                   <div className="flex justify-between items-center">
                     <div>
@@ -141,6 +195,26 @@ export default function PerfilTutor({
                     </div>
 
                     <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleSelectPet(pet.id)}
+                        className={`px-3 py-1 rounded-xl text-sm ${
+                          pet.id === selectedPetId
+                            ? 'bg-[rgba(255,169,143,0.2)] text-[#FFA98F]'
+                            : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                        }`}
+                        aria-pressed={pet.id === selectedPetId}
+                      >
+                        {pet.id === selectedPetId ? 'Selecionado' : 'Selecionar'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleVerMatches(pet.id)}
+                        className="px-3 py-1 rounded-xl text-sm bg-[rgba(255,169,143,0.2)] text-[#FFA98F] hover:bg-[rgba(255,169,143,0.3)] font-semibold"
+                        aria-label={`Ver matches para ${pet.nome}`}
+                      >
+                        Ver Matches
+                      </button>
                       <button onClick={() => handleEditarPet(pet.id)} aria-label={`Editar pet ${pet.nome}`}>
                         <Edit className="text-[#FFA98F]" />
                       </button>
@@ -159,7 +233,7 @@ export default function PerfilTutor({
 
         </main>
       </div>
-    </Layout=>
+    </Layout>
   );
 }
 

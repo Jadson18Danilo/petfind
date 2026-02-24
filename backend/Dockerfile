@@ -19,5 +19,5 @@ RUN mkdir -p public/uploads
 # Expose port
 EXPOSE 4000
 
-# Start command
+# Start command (migrations run via docker-compose volume binding)
 CMD ["npm", "start"]

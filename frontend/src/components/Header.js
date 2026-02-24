@@ -2,34 +2,70 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getMe, logoutUser } from '../services/auth';
-import { Menu, X, Home, MessageCircle, User } from 'lucide-react';
+import { listPets } from '../services/pets';
+import { getUnreadMessagesCount } from '../services/matches';
+import { Menu, X, Home, Heart, MessageCircle, User } from 'lucide-react';
 
 export default function Header() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const [hasPet, setHasPet] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const path = router.pathname;
   const isHome = path === '/';
+  const isMatches = path.startsWith('/match');
   const isChat = path.startsWith('/chat');
   const isProfile = path.startsWith('/tutor-profile') || path.startsWith('/tutor-edit');
 
   useEffect(() => {
-    async function loadUser() {
+    let mounted = true;
+
+    async function loadUserAndPets() {
       try {
         const data = await getMe();
+        if (!mounted) return;
         setUser(data);
+
+        const pets = await listPets();
+        if (!mounted) return;
+        const ownsPet = Array.isArray(pets) && pets.some((pet) => pet.ownerId === data?.id);
+        setHasPet(ownsPet);
+
+        // Load unread messages count
+        const count = await getUnreadMessagesCount();
+        if (!mounted) return;
+        setUnreadCount(count);
       } catch (err) {
+        if (!mounted) return;
         setUser(null);
+        setHasPet(false);
       }
     }
 
-    loadUser();
-  }, []);
+    loadUserAndPets();
+
+    return () => {
+      mounted = false;
+    };
+  }, [router.asPath]);
+
+  // Reload unread count when leaving chat page
+  useEffect(() => {
+    if (router.pathname !== '/chat-on' && user) {
+      const loadUnread = async () => {
+        const count = await getUnreadMessagesCount();
+        setUnreadCount(count);
+      };
+      loadUnread();
+    }
+  }, [router.pathname, user]);
 
   async function handleLogout() {
     await logoutUser();
     setUser(null);
+    setHasPet(false);
   }
 
   function handleChatClick() {
@@ -63,24 +99,46 @@ export default function Header() {
 
           {/* Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            <Link
-              href="/"
-              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                isHome ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
-              }`}
-              aria-label="Início"
-            >
-              <Home className={`w-6 h-6 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
-            </Link>
+            {user ? (
+              <button
+                type="button"
+                onClick={() => {
+                  if (hasPet) router.push('/match-display');
+                }}
+                disabled={!hasPet}
+                aria-disabled={!hasPet}
+                aria-label="Match"
+                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                  isMatches ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
+                } ${!hasPet ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
+              >
+                <Heart className={`w-6 h-6 ${isMatches ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              </button>
+            ) : (
+              <Link
+                href="/"
+                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                  isHome ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
+                }`}
+                aria-label="Início"
+              >
+                <Home className={`w-6 h-6 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              </Link>
+            )}
             <button
               type="button"
               onClick={handleChatClick}
-              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors relative ${
                 isChat ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
               }`}
               aria-label="Chat"
             >
               <MessageCircle className={`w-6 h-6 ${isChat ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              {unreadCount > 0 && !isChat && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </button>
             <button
               type="button"

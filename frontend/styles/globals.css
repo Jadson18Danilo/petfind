@@ -87,6 +87,35 @@
   }
 }
 
+/* Custom scrollbar styles */
+@layer utilities {
+  .scrollbar-soft {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 169, 143, 0.3) transparent;
+  }
+  
+  .scrollbar-soft::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-soft::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollbar-soft::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 169, 143, 0.3);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  
+  .scrollbar-soft::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 169, 143, 0.5);
+    background-clip: content-box;
+  }
+}
+
 /* Fallback brand utility classes for environments where Tailwind custom colors aren't available */
 .bg-brand-warm-50 { background-color: #fff7f1; }
 .bg-brand-warm-100 { background-color: #fff1e6; }

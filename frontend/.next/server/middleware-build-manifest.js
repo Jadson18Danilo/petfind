@@ -19,15 +19,20 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chat-off": [
+    "/match-display": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/chat-off.js"
+      "static/chunks/pages/match-display.js"
     ],
-    "/login": [
+    "/tutor-edit": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/login.js"
+      "static/chunks/pages/tutor-edit.js"
+    ],
+    "/tutor-profile": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/tutor-profile.js"
     ]
   },
   "ampFirstPages": []
