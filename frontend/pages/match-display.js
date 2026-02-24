@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import Layout from '../src/components/Layout';
 import Image from 'next/image';
 
+const IMAGE_DURATION_MS = 10000;
+
 export default function MatchDisplay({
   onNavigateToMatches,
   onNavigateToChat,
@@ -23,12 +25,16 @@ export default function MatchDisplay({
   const [selectionIssue, setSelectionIssue] = useState('');
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageProgress, setImageProgress] = useState(0);
+  const [isImagePaused, setIsImagePaused] = useState(false);
   const [showMatchNotification, setShowMatchNotification] = useState(false);
   const [currentMatch, setCurrentMatch] = useState(null);
   const [swipeDirection, setSwipeDirection] = useState(null);
 
   const currentProfile = pets[currentIndex];
-  const currentImageUrl = currentProfile ? getImageUrl(currentProfile) : '';
+  const currentProfileImages = currentProfile ? getProfileImageUrls(currentProfile) : [];
+  const currentImageUrl = currentProfileImages[currentImageIndex] || '';
   const hasMoreProfiles = currentIndex < pets.length - 1;
   const noProfiles = !loading && !error && pets.length === 0;
   const activePetId = selectedPet?.id ?? currentPetId;
@@ -117,38 +123,105 @@ export default function MatchDisplay({
     return () => { mounted = false; };
   }, []);
 
-  function getImageUrl(profile) {
-    if (!profile) return '';
-    // Common shapes: profile.mainPhoto, profile.image (string), profile.image.url,
-    // profile.images = [{url}] or ['url'], profile.photos, profile.imageUrl
-    const maybeUrl =
-      (typeof profile.mainPhoto === 'string' && profile.mainPhoto) ||
-      (typeof profile.image === 'string' && profile.image) ||
-      (profile.image && typeof profile.image === 'object' && profile.image.url) ||
-      (profile.imageUrl) ||
-      '';
-    if (maybeUrl) {
-      // If server returns a relative path, prefix with API base URL
-      if (maybeUrl.startsWith('/')) {
-        const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-        return `${base.replace(/\/$/, '')}${maybeUrl}`;
-      }
-      return maybeUrl;
+  function toAbsoluteUrl(url) {
+    if (!url || typeof url !== 'string') return '';
+    if (url.startsWith('/')) {
+      const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      return `${base.replace(/\/$/, '')}${url}`;
     }
-    if (Array.isArray(profile.images) && profile.images.length > 0) {
-      const first = profile.images[0];
-      if (typeof first === 'string') return first;
-      if (first && first.url) return first.url;
-    }
-    if (Array.isArray(profile.photos) && profile.photos.length > 0) {
-      const first = profile.photos[0];
-      if (typeof first === 'string') return first;
-      if (first && first.url) return first.url;
-    }
-    if (profile.imageUrl) return profile.imageUrl;
-    // fallback: unknown
-    return '';
+    return url;
   }
+
+  function getProfileImageUrls(profile) {
+    if (!profile) return '';
+
+    const allUrls = [];
+
+    if (typeof profile.mainPhoto === 'string' && profile.mainPhoto.trim()) {
+      allUrls.push(profile.mainPhoto.trim());
+    }
+
+    if (Array.isArray(profile.additionalPhotos)) {
+      profile.additionalPhotos.forEach((photo) => {
+        if (typeof photo === 'string' && photo.trim()) allUrls.push(photo.trim());
+        if (photo && typeof photo === 'object' && typeof photo.url === 'string' && photo.url.trim()) {
+          allUrls.push(photo.url.trim());
+        }
+      });
+    }
+
+    if (Array.isArray(profile.images)) {
+      profile.images.forEach((photo) => {
+        if (typeof photo === 'string' && photo.trim()) allUrls.push(photo.trim());
+        if (photo && typeof photo === 'object' && typeof photo.url === 'string' && photo.url.trim()) {
+          allUrls.push(photo.url.trim());
+        }
+      });
+    }
+
+    if (Array.isArray(profile.photos)) {
+      profile.photos.forEach((photo) => {
+        if (typeof photo === 'string' && photo.trim()) allUrls.push(photo.trim());
+        if (photo && typeof photo === 'object' && typeof photo.url === 'string' && photo.url.trim()) {
+          allUrls.push(photo.url.trim());
+        }
+      });
+    }
+
+    if (typeof profile.image === 'string' && profile.image.trim()) {
+      allUrls.push(profile.image.trim());
+    }
+    if (profile.image && typeof profile.image === 'object' && typeof profile.image.url === 'string' && profile.image.url.trim()) {
+      allUrls.push(profile.image.url.trim());
+    }
+    if (typeof profile.imageUrl === 'string' && profile.imageUrl.trim()) {
+      allUrls.push(profile.imageUrl.trim());
+    }
+
+    const dedupedUrls = [...new Set(allUrls)];
+    return dedupedUrls.map(toAbsoluteUrl).filter(Boolean);
+  }
+
+  function getImageUrl(profile) {
+    const urls = getProfileImageUrls(profile);
+    return urls[0] || '';
+  }
+
+  const handlePrevImage = () => {
+    if (!currentProfileImages.length) return;
+    setCurrentImageIndex((prev) => (prev - 1 + currentProfileImages.length) % currentProfileImages.length);
+    setImageProgress(0);
+  };
+
+  const handleNextImage = () => {
+    if (!currentProfileImages.length) return;
+    setCurrentImageIndex((prev) => (prev + 1) % currentProfileImages.length);
+    setImageProgress(0);
+  };
+
+  useEffect(() => {
+    setCurrentImageIndex(0);
+    setImageProgress(0);
+    setIsImagePaused(false);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    if (!currentProfile || !currentProfileImages.length || isImagePaused) return;
+
+    const tickMs = 100;
+    const intervalId = setInterval(() => {
+      setImageProgress((previousProgress) => {
+        const nextProgress = previousProgress + (tickMs / IMAGE_DURATION_MS) * 100;
+        if (nextProgress >= 100) {
+          setCurrentImageIndex((prev) => (prev + 1) % currentProfileImages.length);
+          return 0;
+        }
+        return nextProgress;
+      });
+    }, tickMs);
+
+    return () => clearInterval(intervalId);
+  }, [currentProfile, currentProfileImages.length, isImagePaused]);
 
   const handleSwipe = async (direction) => {
     if (!currentProfile) return;
@@ -275,6 +348,54 @@ export default function MatchDisplay({
                 
                 {/* Imagem */}
                 <div className="relative h-80 sm:h-96 overflow-hidden rounded-t-2xl">
+                  {currentProfileImages.length > 0 && (
+                    <div className="absolute top-3 left-3 right-3 z-20 flex gap-1.5">
+                      {currentProfileImages.map((img, index) => {
+                        const progress = index < currentImageIndex ? 100 : index === currentImageIndex ? imageProgress : 0;
+                        return (
+                          <div key={`${img}-${index}`} className="h-1.5 flex-1 rounded-full bg-[rgba(255,255,255,0.35)] overflow-hidden">
+                            <div
+                              className="h-full bg-white transition-all duration-100"
+                              style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                  {currentProfileImages.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handlePrevImage}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 size-9 rounded-full bg-[rgba(0,0,0,0.35)] text-white flex items-center justify-center hover:bg-[rgba(0,0,0,0.55)]"
+                        aria-label="Imagem anterior"
+                      >
+                        ‹
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleNextImage}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 size-9 rounded-full bg-[rgba(0,0,0,0.35)] text-white flex items-center justify-center hover:bg-[rgba(0,0,0,0.55)]"
+                        aria-label="Próxima imagem"
+                      >
+                        ›
+                      </button>
+                    </>
+                  )}
+
+                  <button
+                    type="button"
+                    onPointerDown={() => setIsImagePaused(true)}
+                    onPointerUp={() => setIsImagePaused(false)}
+                    onPointerLeave={() => setIsImagePaused(false)}
+                    onPointerCancel={() => setIsImagePaused(false)}
+                    className="absolute inset-y-0 left-1/2 -translate-x-1/2 z-20 w-2/5 bg-transparent"
+                    aria-label="Segure para pausar"
+                  />
+
                   {currentImageUrl ? (
                     <Image
                       src={currentImageUrl}
