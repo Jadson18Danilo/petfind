@@ -106,6 +106,17 @@
     border-color: transparent;
   }
 
+  .input-dirty {
+    border: 2px solid rgba(255, 169, 143, 0.72) !important;
+    background: rgba(255, 247, 241, 0.72) !important;
+  }
+
+  .input-dirty:focus {
+    box-shadow: 0 0 0 6px rgba(255,169,143,0.14) !important;
+    border-color: #FFA98F !important;
+    background: #fff !important;
+  }
+
   select.input {
     padding-right: 2.5rem;
   }

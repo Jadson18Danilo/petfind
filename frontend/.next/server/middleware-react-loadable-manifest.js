@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"pages\\\\pet-register.js -> ../src/services/auth\":{\"id\":\"pages\\\\pet-register.js -> ../src/services/auth\",\"files\":[\"static/chunks/src_services_auth_js.js\"]}}"
+self.__REACT_LOADABLE_MANIFEST="{\"pages\\\\pet-register.js -> ../src/services/auth\":{\"id\":\"pages\\\\pet-register.js -> ../src/services/auth\",\"files\":[\"static/chunks/src_services_auth_js.js\"]},\"pages\\\\tutor-edit.js -> ../src/services/auth\":{\"id\":\"pages\\\\tutor-edit.js -> ../src/services/auth\",\"files\":[]}}"

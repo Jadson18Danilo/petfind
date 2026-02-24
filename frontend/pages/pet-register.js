@@ -6,7 +6,10 @@ import { createPet } from '../src/services/pets';
 
 export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, onNavigateToMatches, onNavigateToChat, onNavigateToPerfil }) {
   const router = useRouter();
-  const selectClassName = 'w-full appearance-none px-4 pr-12 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/15 transition-all bg-white text-[#0a0a0a]';
+  const defaultFieldClassName = 'w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] bg-white text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none transition-colors';
+  const dirtyFieldClassName = 'w-full px-4 py-3 rounded-lg border-2 border-[#FFA98F]/70 bg-[#FFF7F1]/72 text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/14 transition-all';
+  const defaultSelectClassName = 'w-full appearance-none px-4 pr-12 py-3 rounded-lg border-2 border-[#d1d5dc] bg-white text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none transition-colors';
+  const dirtySelectClassName = 'w-full appearance-none px-4 pr-12 py-3 rounded-lg border-2 border-[#FFA98F]/70 bg-[#FFF7F1]/72 text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/14 transition-all';
 
   const [mainPhoto, setMainPhoto] = useState(null);
   const [mainPhotoFile, setMainPhotoFile] = useState(null);
@@ -31,6 +34,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [me, setMe] = useState(null);
+  const [touched, setTouched] = useState({});
 
   useEffect(() => {
     let mounted = true;
@@ -90,7 +94,11 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
   };
+
+  const getFieldClassName = (field) => (touched[field] ? dirtyFieldClassName : defaultFieldClassName);
+  const getSelectClassName = (field) => (touched[field] ? dirtySelectClassName : defaultSelectClassName);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -245,7 +253,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     value={formData.nome}
                     onChange={(e) => handleChange('nome', e.target.value)}
                     placeholder="Ex: Max"
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors"
+                    className={getFieldClassName('nome')}
                     required
                   />
                 </div>
@@ -257,7 +265,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     <select
                       value={formData.especie}
                       onChange={(e) => handleChange('especie', e.target.value)}
-                      className={selectClassName}
+                      className={getSelectClassName('especie')}
                     >
                       <option value="cachorro">Cachorro</option>
                       <option value="gato">Gato</option>
@@ -275,7 +283,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     onChange={(e) => handleChange('idade', e.target.value)}
                     placeholder="Ex: 2"
                     min="0"
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors"
+                    className={getFieldClassName('idade')}
                     required
                   />
                 </div>
@@ -287,7 +295,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     <select
                       value={formData.sexo}
                       onChange={(e) => handleChange('sexo', e.target.value)}
-                      className={selectClassName}
+                      className={getSelectClassName('sexo')}
                     >
                       <option value="macho">Macho</option>
                       <option value="femea">Fêmea</option>
@@ -304,7 +312,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     value={formData.raca}
                     onChange={(e) => handleChange('raca', e.target.value)}
                     placeholder="Ex: Labrador Retriever"
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors"
+                    className={getFieldClassName('raca')}
                     required
                   />
                 </div>
@@ -391,7 +399,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                             <select
                               value={formData.pedigree}
                               onChange={(e) => handleChange('pedigree', e.target.value)}
-                              className="w-full appearance-none px-4 pr-12 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/15 transition-all bg-white h-11.5 text-[#0a0a0a]"
+                              className={`${touched.pedigree ? 'border-[#FFA98F]/70 bg-[#FFF7F1]/72 focus:ring-[#FFA98F]/14 transition-all' : 'border-[#d1d5dc] bg-white transition-colors'} w-full appearance-none px-4 pr-12 py-2 rounded-lg border-2 text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none h-11.5`}
                               required={formData.objetivo === 'encontros'}
                             >
                               <option value="">Selecione uma opção</option>
@@ -432,7 +440,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                   onChange={(e) => handleChange('biografia', e.target.value)}
                   placeholder="Conte mais sobre a personalidade, características especiais e preferências do seu pet..."
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors resize-none"
+                  className={`${touched.biografia ? 'border-[#FFA98F]/70 bg-[#FFF7F1]/72 focus:ring-[#FFA98F]/14 transition-all' : 'border-[#d1d5dc] bg-white transition-colors'} w-full px-4 py-3 rounded-lg border-2 text-[#0a0a0a] focus:border-[#FFA98F] focus:outline-none resize-none`}
                 />
                 <p className="text-xs text-[#4a5565] mt-2">Máximo 500 caracteres</p>
               </div>

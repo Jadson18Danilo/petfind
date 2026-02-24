@@ -3,6 +3,7 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/tutor-profile": "pages/tutor-profile.js",
-  "/login-off": "pages/login-off.js",
-  "/pet-register": "pages/pet-register.js"
+  "/pet-register": "pages/pet-register.js",
+  "/chat-off": "pages/chat-off.js",
+  "/tutor-edit": "pages/tutor-edit.js"
 }

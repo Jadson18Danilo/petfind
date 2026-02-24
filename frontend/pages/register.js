@@ -76,7 +76,7 @@ export default function Register() {
                 placeholder="Nome completo"
                 value={formData.nome}
                 onChange={(e) => handleChange('nome', e.target.value)}
-                className="w-full px-4 py-3 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff8566]"
+                className="input px-4 py-3"
                 required
               />
 
@@ -85,7 +85,7 @@ export default function Register() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={(e) => handleChange('email', e.target.value)}
-                className="w-full px-4 py-3 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff8566]"
+                className="input px-4 py-3"
                 required
               />
 
@@ -94,7 +94,7 @@ export default function Register() {
                 placeholder="Senha"
                 value={formData.senha}
                 onChange={(e) => handleChange('senha', e.target.value)}
-                className="w-full px-4 py-3 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff8566]"
+                className="input px-4 py-3"
                 minLength={6}
                 required
               />
@@ -104,7 +104,7 @@ export default function Register() {
                 placeholder="Confirmar senha"
                 value={formData.confirmarSenha}
                 onChange={(e) => handleChange('confirmarSenha', e.target.value)}
-                className="w-full px-4 py-3 border rounded-xl border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#ff8566] "
+                className="input px-4 py-3"
                 minLength={6}
                 required
               />
