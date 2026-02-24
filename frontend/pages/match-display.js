@@ -85,6 +85,7 @@ export default function MatchDisplay({
           : {};
 
         const ownedPets = meData ? allPets.filter((pet) => pet.ownerId === meData.id) : [];
+        const ownedPetIds = new Set(ownedPets.map((pet) => pet.id));
         const storedId = typeof window !== 'undefined'
           ? Number(window.localStorage.getItem('activePetId'))
           : null;
@@ -122,7 +123,9 @@ export default function MatchDisplay({
         const preferredAgeRange = normalizeText(savedPrefs?.ageRange || 'todos');
 
         const filtered = allPets.filter((pet) => {
+          if (ownedPetIds.has(pet.id)) return false;
           if (meData?.id && pet.ownerId === meData.id) return false;
+          if (activePet?.id && pet.id === activePet.id) return false;
 
           const petSpecies = normalizeText(pet.species || pet.especie);
           const petSex = normalizeText(pet.sex || pet.sexo);

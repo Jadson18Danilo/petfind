@@ -80,7 +80,7 @@ export default function Header() {
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1">
+          <Link href={user ? '/match-display' : '/'} className="flex items-center gap-1">
             <img 
               src="https://img.icons8.com/material-two-tone/24/cat-footprint.png" 
               alt="Ícone de pegada de gato" 
