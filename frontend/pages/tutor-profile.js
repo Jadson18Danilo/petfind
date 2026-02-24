@@ -11,6 +11,7 @@ import Layout from "../src/components/Layout";
 import { useRouter } from "next/router";
 import { getMe } from "../src/services/auth";
 import { listPets } from "../src/services/pets";
+import { showToast } from "../src/services/toast";
 
 export default function PerfilTutor({
   onNavigateToMatches,
@@ -27,6 +28,7 @@ export default function PerfilTutor({
   const [me, setMe] = useState(null);
   const [pets, setPets] = useState([]);
   const [selectedPetId, setSelectedPetId] = useState(null);
+  const [confirmAction, setConfirmAction] = useState(null);
 
   useEffect(() => {
     let mounted = true;
@@ -117,13 +119,7 @@ export default function PerfilTutor({
     : [];
 
   const handleSair = () => {
-    if (
-      typeof window !== "undefined" &&
-      window.confirm("Deseja realmente sair?")
-    ) {
-      if (onNavigateToHome) return onNavigateToHome();
-      router.push("/");
-    }
+    setConfirmAction({ type: "logout" });
   };
 
   const handleEditarPerfil = () => {
@@ -137,14 +133,38 @@ export default function PerfilTutor({
   };
 
   const handleExcluirPet = (petId) => {
-    if (
-      typeof window !== "undefined" &&
-      window.confirm("Deseja realmente excluir este pet?")
-    ) {
-      // TODO: call backend to delete pet
-      alert(`Pet ${petId} excluído`);
-    }
+    setConfirmAction({ type: "delete-pet", petId });
   };
+
+  const closeConfirmModal = () => setConfirmAction(null);
+
+  const confirmModal = confirmAction
+    ? confirmAction.type === "logout"
+      ? {
+          title: "Sair da conta",
+          description: "Tem certeza que deseja sair agora?",
+          confirmText: "Sair",
+          confirmStyle: "btn-secondary bg-[#FFF7F1] text-[#ff8566] border-[#F2D4C8]",
+          onConfirm: () => {
+            closeConfirmModal();
+            if (onNavigateToHome) {
+              onNavigateToHome();
+            } else {
+              router.push("/");
+            }
+          },
+        }
+      : {
+          title: "Excluir pet",
+          description: "Essa ação não pode ser desfeita. Deseja continuar?",
+          confirmText: "Excluir",
+          confirmStyle: "btn-secondary bg-red-50 text-red-600 border-red-200",
+          onConfirm: () => {
+            closeConfirmModal();
+            showToast("Exclusão de pet será ativada quando o backend de delete estiver disponível.", "info");
+          },
+        }
+    : null;
 
   const handleCadastrarPet = () => {
     router.push("/pet-register");
@@ -436,6 +456,24 @@ export default function PerfilTutor({
           </button>
         </main>
       </div>
+
+      {confirmModal && (
+        <div className="fixed inset-0 z-130 bg-black/40 flex items-center justify-center p-4">
+          <div className="w-full max-w-md rounded-3xl border border-[#F2D4C8] bg-white p-6 shadow-2xl">
+            <h3 className="text-xl font-bold text-[#0a0a0a] mb-2">{confirmModal.title}</h3>
+            <p className="text-sm text-[#4a5565] mb-6">{confirmModal.description}</p>
+
+            <div className="flex justify-end gap-3">
+              <button type="button" onClick={closeConfirmModal} className="btn-secondary">
+                Cancelar
+              </button>
+              <button type="button" onClick={confirmModal.onConfirm} className={confirmModal.confirmStyle}>
+                {confirmModal.confirmText}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 }

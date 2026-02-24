@@ -105,6 +105,10 @@
     border-color: transparent;
   }
 
+  select.input {
+    padding-right: 2.5rem;
+  }
+
   .label {
     @apply block text-sm font-medium text-slate-700;
   }

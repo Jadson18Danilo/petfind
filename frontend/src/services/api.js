@@ -1,7 +1,33 @@
 import axios from 'axios';
+import { showToast } from './toast';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000',
+  withCredentials: true,
 });
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    const skipAuthRedirect = Boolean(error?.config?.skipAuthRedirect);
+
+    if (typeof window !== 'undefined' && status === 401) {
+      const currentPath = window.location.pathname || '';
+      const isAuthPage = currentPath.startsWith('/login') || currentPath.startsWith('/register');
+
+      if (!isAuthPage && !skipAuthRedirect) {
+        showToast('Sua sessão expirou. Faça login novamente.', 'error');
+        window.location.href = '/login';
+      }
+    }
+
+    if (typeof window !== 'undefined' && status >= 500) {
+      showToast('Erro interno no servidor. Tente novamente em instantes.', 'error');
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;

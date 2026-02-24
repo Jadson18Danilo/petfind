@@ -8,6 +8,7 @@ import Layout from '../src/components/Layout';
 import Image from 'next/image';
 
 const IMAGE_DURATION_MS = 10000;
+const MATCH_PREFS_KEY = 'matchPreferences';
 
 export default function MatchDisplay({
   onNavigateToMatches,
@@ -55,6 +56,16 @@ export default function MatchDisplay({
     return '';
   }
 
+  function getAgeGroupForPet(pet) {
+    const rawAge = Number(pet?.ageMonths ?? pet?.age ?? pet?.idade ?? 0);
+    if (!Number.isFinite(rawAge)) return 'adulto';
+
+    const months = rawAge > 24 ? rawAge * 12 : rawAge;
+    if (months <= 12) return 'filhote';
+    if (months <= 84) return 'adulto';
+    return 'idoso';
+  }
+
   useEffect(() => {
     let mounted = true;
 
@@ -69,6 +80,10 @@ export default function MatchDisplay({
         if (!mounted) return;
 
         const allPets = Array.isArray(data) ? data : [];
+        const savedPrefs = typeof window !== 'undefined'
+          ? JSON.parse(window.localStorage.getItem(MATCH_PREFS_KEY) || '{}')
+          : {};
+
         const ownedPets = meData ? allPets.filter((pet) => pet.ownerId === meData.id) : [];
         const storedId = typeof window !== 'undefined'
           ? Number(window.localStorage.getItem('activePetId'))
@@ -102,14 +117,38 @@ export default function MatchDisplay({
           return;
         }
 
+        const preferredSpecies = normalizeText(savedPrefs?.species || 'qualquer');
+        const preferredSex = normalizeText(savedPrefs?.sex || 'oposto');
+        const preferredAgeRange = normalizeText(savedPrefs?.ageRange || 'todos');
+
         const filtered = allPets.filter((pet) => {
           if (meData?.id && pet.ownerId === meData.id) return false;
+
           const petSpecies = normalizeText(pet.species || pet.especie);
           const petSex = normalizeText(pet.sex || pet.sexo);
-          return petSpecies === species && petSex === opposite;
+          const petAgeGroup = getAgeGroupForPet(pet);
+
+          const speciesMatchesPreference =
+            preferredSpecies === 'qualquer' ? petSpecies === species : petSpecies === preferredSpecies;
+
+          const sexMatchesPreference =
+            preferredSex === 'qualquer'
+              ? true
+              : preferredSex === 'mesmo'
+                ? petSex === normalizeText(activePet.sex || activePet.sexo)
+                : petSex === opposite;
+
+          const ageMatchesPreference =
+            preferredAgeRange === 'todos' ? true : petAgeGroup === preferredAgeRange;
+
+          return speciesMatchesPreference && sexMatchesPreference && ageMatchesPreference;
         });
 
         setPets(filtered);
+
+        if (filtered.length === 0) {
+          setSelectionIssue('Nenhum perfil encontrado com os filtros atuais. Ajuste em Configurações > Preferências de Match.');
+        }
       } catch (err) {
         console.error('Error loading pets', err);
         if (mounted) setError(err);
@@ -313,8 +352,16 @@ export default function MatchDisplay({
         {/* Main Content */}
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-8 min-h-screen">
           {loading ? (
-            <div className="text-center">
-              <p className="text-gray-500">Carregando perfis...</p>
+            <div className="w-full max-w-md animate-pulse">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)]">
+                <div className="h-96 bg-slate-100" />
+                <div className="p-5 space-y-3">
+                  <div className="h-6 w-2/3 bg-slate-100 rounded" />
+                  <div className="h-4 w-1/2 bg-slate-100 rounded" />
+                  <div className="h-4 w-full bg-slate-100 rounded" />
+                  <div className="h-4 w-5/6 bg-slate-100 rounded" />
+                </div>
+              </div>
             </div>
           ) : error ? (
             <div className="text-center">

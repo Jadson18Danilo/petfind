@@ -1,24 +1,44 @@
 # PetFind
 
-Projeto fullstack com React (Next.js), Express API (backend) e PostgreSQL.
+Projeto fullstack com Next.js (frontend), Express (backend) e PostgreSQL.
 
-Estrutura inicial:
+## Estrutura
 
-- `backend` - Express API (auth + DB)
-- `frontend` - Next.js (UI)
+- `backend` → API (auth, pets, matches, mensagens, upload)
+- `frontend` → aplicação Next.js (UI e navegação)
+- `docker-compose.yml` → banco local (Postgres + Adminer)
 
-Rápido start (Windows / PowerShell):
+## Stack
 
-1) Backend (Express API)
+- Frontend: Next.js 14, React 18, Axios, Tailwind CSS
+- Backend: Express 4, Sequelize, PostgreSQL, Zod, JWT em cookie HttpOnly
+
+## Setup rápido (Windows / PowerShell)
+
+### 1) Banco de dados (Docker)
+
+```powershell
+docker-compose up -d
+```
+
+- Postgres: `127.0.0.1:5433`
+- Adminer: `http://localhost:8080`
+	- Server: `db`
+	- User: `postgres`
+	- Password: `postgres`
+	- Database: `petfind`
+
+### 2) Backend
 
 ```powershell
 cd backend
 npm install
-# criar .env.local a partir de .env.example e ajustar DATABASE_URL/FRONTEND_URLS
+Copy-Item .env.example .env.local
+npm run db:migrate
 npm run dev
 ```
 
-2) Frontend (Next.js UI)
+### 3) Frontend
 
 ```powershell
 cd frontend
@@ -26,58 +46,99 @@ npm install
 npm run dev
 ```
 
-Banco de dados:
-- Instale Docker e execute: `docker-compose up -d`
-- Postgres: localhost:5433
-- Adminer (GUI DB): http://localhost:8080 (login: postgres/postgres/petfind)
+## Variáveis de ambiente (backend)
 
-Migrations (backend):
+Arquivo: `backend/.env.local`
 
-```powershell
-cd backend
-npm run db:migrate
+```dotenv
+DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5433/petfind
+JWT_SECRET=your_secret_key_here
+FRONTEND_URLS=http://localhost:5423
 ```
 
-Portas:
-- Backend: http://localhost:4000
-- Frontend: http://localhost:5423
+`FRONTEND_URLS` aceita múltiplas origens separadas por vírgula.
 
-Uploads de imagens:
-- Arquivos são salvos em `backend/public/uploads`
-- URLs são servidas pelo backend em `http://localhost:4000/uploads/<arquivo>`
+Exemplo:
 
-Páginas disponíveis:
-- / (home)
-- /login
-- /register
-- /pets
-- /pet-details
-- /matches
-- /chat
+```dotenv
+FRONTEND_URLS=http://localhost:5423,http://localhost:3000
+```
 
-Fluxo rápido (UI):
-- Cadastre usuário em `/register`
-- Faça login em `/login`
-- Cadastre pet em `/pets`
-- Veja matches em `/matches`
-- Use `/chat` com o Match ID
+## Portas padrão
 
-Endpoints (Backend API):
-- POST /api/auth/register
-- POST /api/auth/login
-- POST /api/auth/logout
-- GET /api/me
-- GET /api/pets
-- POST /api/pets
-- GET /api/pets/:id
-- PUT /api/pets/:id
-- DELETE /api/pets/:id
-- POST /api/pets/:id/like
-- GET /api/matches
-- GET /api/matches/:id/messages
-- POST /api/matches/:id/messages
+- Backend: `http://localhost:4000`
+- Frontend: `http://localhost:5423`
 
-Resposta de `POST /api/pets/:id/like` (exemplo):
+## Uploads de imagens
+
+- Diretório local: `backend/public/uploads`
+- Arquivos servidos em: `http://localhost:4000/uploads/<arquivo>`
+
+## Páginas do frontend
+
+- `/`
+- `/login`
+- `/register`
+- `/pets`
+- `/pet-register`
+- `/pet-edit`
+- `/pet-details`
+- `/matches`
+- `/match-begin`
+- `/match-display`
+- `/chat`
+- `/chat-on`
+- `/chat-off`
+- `/tutor-profile`
+- `/tutor-edit`
+- `/settings/match`
+- `/settings/notifications`
+- `/settings/privacy`
+- `/settings/support`
+
+## Fluxo funcional (resumo)
+
+1. Registrar usuário em `/register`
+2. Login em `/login`
+3. Cadastrar pet em `/pet-register`
+4. Definir pet ativo (persistido no navegador)
+5. Curtir perfis em `/match-display`
+6. Quando houver match, conversar em `/chat-on`
+
+## Endpoints da API
+
+### Auth
+
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+
+### Usuário
+
+- `GET /api/me`
+- `PUT /api/me`
+
+### Pets
+
+- `GET /api/pets`
+- `POST /api/pets`
+- `GET /api/pets/:id`
+- `PUT /api/pets/:id`
+- `DELETE /api/pets/:id`
+- `POST /api/pets/:id/like`
+
+### Matches e chat
+
+- `GET /api/matches`
+- `GET /api/matches/unread/count`
+- `GET /api/matches/:id/messages`
+- `POST /api/matches/:id/messages`
+- `PUT /api/matches/:id/messages/read`
+
+## Exemplo de resposta de like com match
+
+`POST /api/pets/:id/like`
+
 ```json
 {
 	"message": "Match created",
@@ -93,17 +154,68 @@ Resposta de `POST /api/pets/:id/like` (exemplo):
 }
 ```
 
-Env de CORS:
-Backend Express (produção e dev):
+## Melhorias implementadas (UX, UI e comportamento)
 
-```powershell
-cd backend
-npm run dev
-```
-- `FRONTEND_URLS` aceita múltiplas origens separadas por vírgula.
-	Ex: `FRONTEND_URLS=http://localhost:5423,http://localhost:3000`
+### UX / UI
 
-Próximos passos sugeridos:
-- Adicionar storage externo para uploads (S3/GCS)
-- Documentar API com OpenAPI/Swagger
-- Adicionar testes de integração para auth e pets
+- Padronização visual de páginas e botões para manter harmonia de estilo
+- Redesign de telas de perfil e fluxo de match
+- `match-display` com visual de story:
+	- múltiplas imagens por pet
+	- barra de progresso por imagem
+	- auto-avanço em ~10s
+	- navegação lateral (anterior/próxima)
+	- pausa ao segurar
+- Skeleton de carregamento em telas de match
+
+### Chat e notificações
+
+- Ajuste de sincronização da conversa entre contas
+- Polling periódico no chat para atualização de mensagens
+- Correção da lógica de “mensagem enviada x recebida” por usuário logado
+- Contador de mensagens não lidas
+- Marcação de mensagens como lidas ao entrar na conversa
+
+### Robustez de frontend
+
+- Interceptor global da API para erros de autenticação/servidor
+- Toast global para feedback de ações e erros
+- Confirmações de ações sensíveis via modal customizado (sem `alert/confirm` nativo)
+
+## Troubleshooting
+
+### `npm run dev` falha no backend
+
+Checklist rápido:
+
+1. Confirmar `backend/.env.local` existente
+2. Validar `DATABASE_URL` e `JWT_SECRET`
+3. Garantir containers ativos: `docker-compose ps`
+4. Rodar migrations novamente: `npm run db:migrate`
+5. Verificar se a porta `4000` está livre
+
+### Erro de CORS
+
+- Ajustar `FRONTEND_URLS` no `backend/.env.local`
+- Reiniciar backend após alteração
+
+## Scripts úteis
+
+### Backend
+
+- `npm run dev`
+- `npm run start`
+- `npm run db:migrate`
+- `npm run db:migrate:undo`
+
+### Frontend
+
+- `npm run dev`
+- `npm run build`
+- `npm run start`
+
+## Próximos passos sugeridos
+
+- Documentação OpenAPI/Swagger para a API
+- Testes de integração para auth, pets, likes e chat
+- Upload em storage externo (S3/GCS)

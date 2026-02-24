@@ -244,7 +244,7 @@ export default function Pets() {
 
                   <div>
                     <label className="block text-sm font-semibold text-[#0a0a0a] mb-2">Espécie *</label>
-                    <select value={formData.especie} onChange={(e) => handleChange('especie', e.target.value)} className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white">
+                    <select value={formData.especie} onChange={(e) => handleChange('especie', e.target.value)} className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white">
                       <option value="cachorro">Cachorro</option>
                       <option value="gato">Gato</option>
                     </select>
@@ -257,7 +257,7 @@ export default function Pets() {
 
                   <div>
                     <label className="block text-sm font-semibold text-[#0a0a0a] mb-2">Sexo *</label>
-                    <select value={formData.sexo} onChange={(e) => handleChange('sexo', e.target.value)} className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white">
+                    <select value={formData.sexo} onChange={(e) => handleChange('sexo', e.target.value)} className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white">
                       <option value="macho">Macho</option>
                       <option value="femea">Fêmea</option>
                     </select>
@@ -319,7 +319,7 @@ export default function Pets() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Pedigree *</label>
-                            <select value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5">
+                            <select value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="w-full px-4 pr-10 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5">
                               <option value="">Selecione uma opção</option>
                               <option value="sim">Sim, Verificado</option>
                               <option value="nao">Não Possui</option>

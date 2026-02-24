@@ -2,5 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/pet-register": "pages/pet-register.js"
+  "/tutor-profile": "pages/tutor-profile.js",
+  "/pet-register": "pages/pet-register.js",
+  "/tutor-edit": "pages/tutor-edit.js"
 }

@@ -16,7 +16,10 @@ export async function logoutUser() {
 }
 
 export async function getMe() {
-  const response = await api.get('/api/me', { withCredentials: true });
+  const response = await api.get('/api/me', {
+    withCredentials: true,
+    skipAuthRedirect: true,
+  });
   return response.data;
 }
 

@@ -255,7 +255,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                   <select
                     value={formData.especie}
                     onChange={(e) => handleChange('especie', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
+                    className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
                   >
                     <option value="cachorro">Cachorro</option>
                     <option value="gato">Gato</option>
@@ -282,7 +282,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                   <select
                     value={formData.sexo}
                     onChange={(e) => handleChange('sexo', e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
+                    className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
                   >
                     <option value="macho">Macho</option>
                     <option value="femea">Fêmea</option>
@@ -309,7 +309,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
               <div className="space-y-3">
                 <h3 className="text-lg font-bold text-[#0a0a0a]">O que você busca? *</h3>
                 
-                <div className="space-y-3">
+                <div className="space-y-1">
                   {/* Amizades */}
                   <label className={`flex items-start gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all ${
                     formData.objetivo === 'amizades' 
@@ -373,7 +373,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                           <select
                             value={formData.pedigree}
                             onChange={(e) => handleChange('pedigree', e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5"
+                            className="w-full px-4 pr-10 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5"
                             required={formData.objetivo === 'encontros'}
                           >
                             <option value="">Selecione uma opção</option>
@@ -384,9 +384,9 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
                         <div>
                           <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Registro Médico</label>
-                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#FFA98F]/20 hover:border-[#FFA98F] transition-colors cursor-pointer bg-white w-full h-11.5">
-                            <Plus className="w-5 h-5 text-[#FFA98F] shrink-0" />
-                            <span className="text-sm text-[#4a5565]">Adicionar arquivo</span>
+                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#ffa98f] hover:bg-[#ff8566] transition-colors cursor-pointer bg-[#ffa98f] w-full h-11.5">
+                            <Plus className="w-5 h-5 text-white shrink-0" />
+                            <span className="text-sm text-white">Adicionar arquivo</span>
                             <input
                               type="file"
                               accept="application/pdf,image/*"
