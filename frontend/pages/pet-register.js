@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useRef, useEffect } from 'react';
-import { Plus, X, Upload } from 'lucide-react';
+import { Plus, X, Upload, ChevronDown, Heart } from 'lucide-react';
 import { useRouter } from 'next/router';
 import { createPet } from '../src/services/pets';
 
 export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, onNavigateToMatches, onNavigateToChat, onNavigateToPerfil }) {
   const router = useRouter();
+  const selectClassName = 'w-full appearance-none px-4 pr-12 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/15 transition-all bg-white text-[#0a0a0a]';
 
   const [mainPhoto, setMainPhoto] = useState(null);
   const [mainPhotoFile, setMainPhotoFile] = useState(null);
@@ -183,7 +184,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                       <button
                         type="button"
                         onClick={removeMainPhoto}
-                        className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg"
+                        className="btn-danger-icon absolute top-2 right-2 size-9 p-0 rounded-full shadow-lg"
                       >
                         <X className="w-5 h-5" />
                       </button>
@@ -219,7 +220,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                           <button
                             type="button"
                             onClick={() => removeAdditionalPhoto(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors shadow-lg"
+                            className="btn-danger-icon absolute -top-2 -right-2 size-7 p-0 rounded-full shadow-lg"
                           >
                             <X className="w-4 h-4" />
                           </button>
@@ -252,14 +253,17 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                 {/* Espécie */}
                 <div>
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-2">Espécie *</label>
-                  <select
-                    value={formData.especie}
-                    onChange={(e) => handleChange('especie', e.target.value)}
-                    className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
-                  >
-                    <option value="cachorro">Cachorro</option>
-                    <option value="gato">Gato</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={formData.especie}
+                      onChange={(e) => handleChange('especie', e.target.value)}
+                      className={selectClassName}
+                    >
+                      <option value="cachorro">Cachorro</option>
+                      <option value="gato">Gato</option>
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 size-4 text-[#ff8566]" />
+                  </div>
                 </div>
 
                 {/* Idade */}
@@ -279,14 +283,17 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                 {/* Sexo */}
                 <div>
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-2">Sexo *</label>
-                  <select
-                    value={formData.sexo}
-                    onChange={(e) => handleChange('sexo', e.target.value)}
-                    className="w-full px-4 pr-10 py-3 rounded-lg border-2 border-[#d1d5dc] focus:border-[#FFA98F] focus:outline-none transition-colors bg-white"
-                  >
-                    <option value="macho">Macho</option>
-                    <option value="femea">Fêmea</option>
-                  </select>
+                  <div className="relative">
+                    <select
+                      value={formData.sexo}
+                      onChange={(e) => handleChange('sexo', e.target.value)}
+                      className={selectClassName}
+                    >
+                      <option value="macho">Macho</option>
+                      <option value="femea">Fêmea</option>
+                    </select>
+                    <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 size-4 text-[#ff8566]" />
+                  </div>
                 </div>
 
                 {/* Raça */}
@@ -366,25 +373,38 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
                   {/* Breeding Intent - Aparece apenas quando "Encontros" está selecionado */}
                   {formData.objetivo === 'encontros' && (
-                    <div className="mt-6 p-4 bg-linear-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
+                    <div className="mt-1 p-4 bg-linear-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className="size-9 rounded-full bg-white border border-[#F2D4C8] flex items-center justify-center shrink-0">
+                          <Heart className="size-5 text-[#ff8566]" />
+                        </div>
+                        <div>
+                          <h4 className="text-base font-bold text-[#0a0a0a] leading-tight">Breeding Intent (Namoro)</h4>
+                          <p className="text-sm text-[#4a5565] mt-1">Procuro parceiro(a) para cruzar, que tenham pedigree certificado, para ensuring pet.</p>
+                        </div>
+                      </div>
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Pedigree *</label>
-                          <select
-                            value={formData.pedigree}
-                            onChange={(e) => handleChange('pedigree', e.target.value)}
-                            className="w-full px-4 pr-10 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5"
-                            required={formData.objetivo === 'encontros'}
-                          >
-                            <option value="">Selecione uma opção</option>
-                            <option value="sim">Sim, Verificado</option>
-                            <option value="nao">Não Possui</option>
-                          </select>
+                          <div className="relative">
+                            <select
+                              value={formData.pedigree}
+                              onChange={(e) => handleChange('pedigree', e.target.value)}
+                              className="w-full appearance-none px-4 pr-12 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none focus:ring-4 focus:ring-[#FFA98F]/15 transition-all bg-white h-11.5 text-[#0a0a0a]"
+                              required={formData.objetivo === 'encontros'}
+                            >
+                              <option value="">Selecione uma opção</option>
+                              <option value="sim">Sim, Verificado</option>
+                              <option value="nao">Não Possui</option>
+                            </select>
+                            <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 size-4 text-[#ff8566]" />
+                          </div>
                         </div>
 
                         <div>
                           <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Registro Médico</label>
-                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#ffa98f] hover:bg-[#ff8566] transition-colors cursor-pointer bg-[#ffa98f] w-full h-11.5">
+                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-xl border border-[#ffa98f] hover:bg-[#ff8566] transition-colors cursor-pointer bg-[#ffa98f] w-full h-11.5">
                             <Plus className="w-5 h-5 text-white shrink-0" />
                             <span className="text-sm text-white">Adicionar arquivo</span>
                             <input
@@ -435,14 +455,14 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="btn-secondary px-8 py-3 text-lg"
+                className="btn-secondary h-11.5 px-6 border-transparent"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn px-8 py-3 text-lg"
+                className="btn h-11.5 px-6"
               >
                 {isSubmitting ? 'Cadastrando...' : 'Cadastrar Pet'}
               </button>
