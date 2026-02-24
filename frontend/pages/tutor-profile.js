@@ -78,7 +78,7 @@ export default function PerfilTutor({
   };
 
   return (
-    <Layout title="Perfil do Tutor">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1]">
         <main className="max-w-4xl mx-auto px-6 py-12">
           <div className="mb-12 flex justify-between items-center">
@@ -159,7 +159,7 @@ export default function PerfilTutor({
 
         </main>
       </div>
-    </Layout>
+    </Layout=>
   );
 }
 

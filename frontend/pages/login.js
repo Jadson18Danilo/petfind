@@ -32,7 +32,7 @@ export default function Login() {
   }
 
   return (
-    <Layout title="Entrar">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1]">
         <main className="max-w-md mx-auto px-6 py-20">
         <div className="space-y-8">
@@ -121,7 +121,7 @@ export default function Login() {
         </div>
         </main>
       </div>
-    </Layout>
+    </Layouttitle=>
   );
 }
 

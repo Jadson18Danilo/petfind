@@ -168,7 +168,7 @@ export default function MatchDisplay({
   };
 
   return (
-    <Layout title="Match">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1] flex flex-col">
         <main className="flex-1 flex items-center justify-center px-4 py-8">
         {loading ? (

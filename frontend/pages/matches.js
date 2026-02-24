@@ -22,7 +22,7 @@ export default function MatchList() {
   }, []);
 
   return (
-    <Layout title="Matches">
+    <Layout>
       <div className="container-page py-10 max-w-2xl">
 
         {error && <p className="mt-3 text-red-600">{error}</p>}

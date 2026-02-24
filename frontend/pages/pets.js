@@ -170,7 +170,7 @@ export default function Pets() {
   };
 
   return (
-    <Layout title="Cadastrar Pet">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1]">
         <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
           <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12">
@@ -373,6 +373,6 @@ export default function Pets() {
                 </div>
               </main>
             </div>
-          </Layout>
+          </Layouttitle=>
   );
 }

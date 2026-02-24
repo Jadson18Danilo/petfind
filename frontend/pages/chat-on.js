@@ -147,7 +147,7 @@ export default function ChatOn() {
   const hasConversations = conversations.length > 0;
 
   return (
-    <Layout title="Chat">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1] flex flex-col">
         <main className="flex-1 container-page py-8">
         <div className="grid md:grid-cols-3 gap-6 h-full">

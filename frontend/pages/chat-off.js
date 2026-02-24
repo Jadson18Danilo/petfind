@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 export default function ChatOff() {
   const router = useRouter();
   return (
-    <Layout title="Chat">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1] flex flex-col">
         <main className="flex-1 flex items-center justify-center px-6 py-12">
           <div className="max-w-md w-full text-center">

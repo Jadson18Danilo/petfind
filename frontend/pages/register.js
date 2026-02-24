@@ -52,7 +52,7 @@ export default function Register() {
   const onNavigateToLogin = () => router.push('/login');
 
   return (
-    <Layout title="Criar Conta">
+    <Layout>
       <div className="min-h-screen bg-[#FFF7F1]">
         <main className="max-w-md mx-auto px-6 py-12">
         <div className="space-y-8">

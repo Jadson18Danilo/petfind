@@ -106,7 +106,7 @@ export default function PetEdit({ petData: initialPetData = null }) {
   };
 
   return (
-    <Layout title="Editar Pet">
+    <Layout>
       <div className="page min-h-screen bg-[#FFF7F1]">
         <main className="container-page py-8">
           <div className="max-w-4xl mx-auto">
@@ -252,6 +252,6 @@ export default function PetEdit({ petData: initialPetData = null }) {
           </div>
         </main>
       </div>
-    </Layout>
+    </Layoutle=>
   );
 }

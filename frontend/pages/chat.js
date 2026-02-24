@@ -11,7 +11,7 @@ export async function getServerSideProps() {
 
 export default function Chat() {
   return (
-    <Layout title="Chat">
+    <Layout>
       <div className="container-page py-10 max-w-2xl">
         <div className="card p-6 text-center">
           <h2 className="text-lg font-semibold text-slate-900">Redirecionando...</h2>

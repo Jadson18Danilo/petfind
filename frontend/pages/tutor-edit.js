@@ -144,7 +144,7 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
   ];
 
   return (
-    <Layout title="Editar Tutor">
+    <Layout>
       <div className="page min-h-screen bg-[#FFF7F1]">
         <main className="container-page py-12">
           <div className="max-w-4xl mx-auto">
@@ -221,6 +221,6 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
           </div>
         </main>
       </div>
-    </Layout>
+    </Layoute=>
   );
 }
