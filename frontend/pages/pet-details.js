@@ -73,7 +73,7 @@ export default function PetDetails({ petData }) {
 
   return (
     <Layout>
-      <main className="container-page py-12">
+      <div className="py-12">
         {!petData ? (
           <div className="card p-8 text-center max-w-lg mx-auto">
             <h1 className="section-title">Nenhum pet encontrado</h1>
@@ -158,7 +158,7 @@ export default function PetDetails({ petData }) {
             </form>
           </div>
         )}
-      </main>
-    </Layouttle=>
+      </div>
+    </Layout>
   );
 }

@@ -107,151 +107,147 @@ export default function PetEdit({ petData: initialPetData = null }) {
 
   return (
     <Layout>
-      <div className="page min-h-screen bg-[#FFF7F1]">
-        <main className="container-page py-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="section-title">Editar perfil do pet</h2>
-              <div className="flex items-center gap-2">
-                <button onClick={() => router.push('/match-display')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Ir para Match">
-                  <Heart />
-                </button>
-                <button onClick={() => router.push('/chat-on')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Chat">
-                  <MessageCircle />
-                </button>
-                <button onClick={() => router.push('/tutor-profile')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Perfil">
-                  <User />
-                </button>
-              </div>
-            </div>
+      <div className="max-w-4xl mx-auto">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="section-title">Editar perfil do pet</h2>
+          <div className="flex items-center gap-2">
+            <button onClick={() => router.push('/match-display')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Ir para Match">
+              <Heart />
+            </button>
+            <button onClick={() => router.push('/chat-on')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Chat">
+              <MessageCircle />
+            </button>
+            <button onClick={() => router.push('/tutor-profile')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Perfil">
+              <User />
+            </button>
+          </div>
+        </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="card p-4">
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="md:col-span-1">
-                    <div className="relative">
-                      <div className="w-full h-64 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden">
-                        {mainPhoto ? (
-                          <img src={mainPhoto} className="object-cover w-full h-full" alt="Main" loading="lazy" decoding="async" />
-                        ) : (
-                          <div className="text-center text-gray-400 px-4">
-                            <div className="mb-2">Foto principal</div>
-                            <div className="text-xs">Adicione uma foto que represente melhor o seu pet.</div>
-                          </div>
-                        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="card p-4">
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="md:col-span-1">
+                <div className="relative">
+                  <div className="w-full h-64 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden">
+                    {mainPhoto ? (
+                      <img src={mainPhoto} className="object-cover w-full h-full" alt="Main" loading="lazy" decoding="async" />
+                    ) : (
+                      <div className="text-center text-gray-400 px-4">
+                        <div className="mb-2">Foto principal</div>
+                        <div className="text-xs">Adicione uma foto que represente melhor o seu pet.</div>
                       </div>
+                    )}
+                  </div>
 
-                      <div className="absolute left-4 top-4 flex gap-2">
-                        <label className="btn-secondary cursor-pointer">
-                          <input ref={mainPhotoInputRef} type="file" accept="image/*" onChange={handleMainPhotoChange} onClick={(e) => e.stopPropagation()} className="hidden" />
-                          <Plus className="size-4" />
-                        </label>
-                        {mainPhoto && (
-                          <button type="button" onClick={removeMainPhoto} className="btn-secondary">
-                            <X className="size-4" />
+                  <div className="absolute left-4 top-4 flex gap-2">
+                    <label className="btn-secondary cursor-pointer">
+                      <input ref={mainPhotoInputRef} type="file" accept="image/*" onChange={handleMainPhotoChange} onClick={(e) => e.stopPropagation()} className="hidden" />
+                      <Plus className="size-4" />
+                    </label>
+                    {mainPhoto && (
+                      <button type="button" onClick={removeMainPhoto} className="btn-secondary">
+                        <X className="size-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-4">
+                  <div className="text-sm font-semibold mb-2">Galeria</div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {additionalPhotos.map((p, i) => (
+                      <div key={i} className="relative w-full pb-[100%] bg-slate-50 rounded-lg overflow-hidden">
+                        {p ? <img src={p} alt="Foto do pet" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" /> : <div className="absolute inset-0 flex items-center justify-center text-gray-300">+</div>}
+                        <input ref={(el) => (additionalPhotoRefs.current[i] = el)} type="file" accept="image/*" onChange={(e) => handleAdditionalPhotoChange(i, e)} onClick={(e) => e.stopPropagation()} className="absolute inset-0 opacity-0 cursor-pointer" />
+                        {p && (
+                          <button type="button" onClick={() => removeAdditionalPhoto(i)} className="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
+                            <X className="size-3" />
                           </button>
                         )}
                       </div>
-                    </div>
-
-                    <div className="mt-4">
-                      <div className="text-sm font-semibold mb-2">Galeria</div>
-                      <div className="grid grid-cols-4 gap-2">
-                        {additionalPhotos.map((p, i) => (
-                          <div key={i} className="relative w-full pb-[100%] bg-slate-50 rounded-lg overflow-hidden">
-                            {p ? <img src={p} alt="Foto do pet" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" /> : <div className="absolute inset-0 flex items-center justify-center text-gray-300">+</div>}
-                            <input ref={(el) => (additionalPhotoRefs.current[i] = el)} type="file" accept="image/*" onChange={(e) => handleAdditionalPhotoChange(i, e)} onClick={(e) => e.stopPropagation()} className="absolute inset-0 opacity-0 cursor-pointer" />
-                            {p && (
-                              <button type="button" onClick={() => removeAdditionalPhoto(i)} className="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
-                                <X className="size-3" />
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="label">Nome</label>
-                        <input value={formData.nome} onChange={(e) => handleChange('nome', e.target.value)} className="input" placeholder="Nome do pet" />
-                      </div>
-
-                      <div>
-                        <label className="label">Espécie</label>
-                        <select value={formData.especie} onChange={(e) => handleChange('especie', e.target.value)} className="input">
-                          <option value="cachorro">Cachorro</option>
-                          <option value="gato">Gato</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="label">Idade (meses)</label>
-                        <input value={formData.idade} onChange={(e) => handleChange('idade', e.target.value)} className="input" placeholder="0" />
-                      </div>
-
-                      <div>
-                        <label className="label">Sexo</label>
-                        <select value={formData.sexo} onChange={(e) => handleChange('sexo', e.target.value)} className="input">
-                          <option value="macho">Macho</option>
-                          <option value="femea">Fêmea</option>
-                        </select>
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="label">Raça</label>
-                        <input value={formData.raca} onChange={(e) => handleChange('raca', e.target.value)} className="input" placeholder="Ex: Labrador" />
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="label">Objetivo</label>
-                        <select value={formData.objetivo} onChange={(e) => handleChange('objetivo', e.target.value)} className="input">
-                          <option value="encontros">Encontros</option>
-                          <option value="adocao">Adoção</option>
-                          <option value="criacao">Criação</option>
-                        </select>
-                      </div>
-
-                      <div className="col-span-2 flex items-center gap-3">
-                        <input id="breedToggle" type="checkbox" checked={formData.breedingEnabled} onChange={(e) => handleChange('breedingEnabled', e.target.checked)} />
-                        <label htmlFor="breedToggle" className="text-sm">Disponível para reprodução</label>
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="label">Pedigree</label>
-                        <input value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="input" placeholder="Número do pedigree" />
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="label">Registro médico (arquivo)</label>
-                        <div className="flex items-center gap-3">
-                          <label className="btn-secondary cursor-pointer">
-                            <input ref={registroMedicoInputRef} type="file" accept="application/pdf,image/*" onChange={handleRegistroMedicoChange} onClick={(e) => e.stopPropagation()} className="hidden" />
-                            <Plus />
-                          </label>
-                          <div className="text-sm text-gray-600">{formData.registroMedico || 'Nenhum arquivo selecionado'}</div>
-                        </div>
-                      </div>
-
-                      <div className="col-span-2">
-                        <label className="label">Biografia</label>
-                        <textarea rows={4} placeholder="Conte mais sobre o seu pet..." value={formData.biografia} onChange={(e) => handleChange('biografia', e.target.value)} className="input resize-none" />
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3">
-                <button type="button" onClick={handleVoltar} className="btn-secondary">Voltar</button>
-                <button type="submit" className="btn">Salvar</button>
+              <div className="md:col-span-2">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="label">Nome</label>
+                    <input value={formData.nome} onChange={(e) => handleChange('nome', e.target.value)} className="input" placeholder="Nome do pet" />
+                  </div>
+
+                  <div>
+                    <label className="label">Espécie</label>
+                    <select value={formData.especie} onChange={(e) => handleChange('especie', e.target.value)} className="input">
+                      <option value="cachorro">Cachorro</option>
+                      <option value="gato">Gato</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="label">Idade (meses)</label>
+                    <input value={formData.idade} onChange={(e) => handleChange('idade', e.target.value)} className="input" placeholder="0" />
+                  </div>
+
+                  <div>
+                    <label className="label">Sexo</label>
+                    <select value={formData.sexo} onChange={(e) => handleChange('sexo', e.target.value)} className="input">
+                      <option value="macho">Macho</option>
+                      <option value="femea">Fêmea</option>
+                    </select>
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="label">Raça</label>
+                    <input value={formData.raca} onChange={(e) => handleChange('raca', e.target.value)} className="input" placeholder="Ex: Labrador" />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="label">Objetivo</label>
+                    <select value={formData.objetivo} onChange={(e) => handleChange('objetivo', e.target.value)} className="input">
+                      <option value="encontros">Encontros</option>
+                      <option value="adocao">Adoção</option>
+                      <option value="criacao">Criação</option>
+                    </select>
+                  </div>
+
+                  <div className="col-span-2 flex items-center gap-3">
+                    <input id="breedToggle" type="checkbox" checked={formData.breedingEnabled} onChange={(e) => handleChange('breedingEnabled', e.target.checked)} />
+                    <label htmlFor="breedToggle" className="text-sm">Disponível para reprodução</label>
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="label">Pedigree</label>
+                    <input value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="input" placeholder="Número do pedigree" />
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="label">Registro médico (arquivo)</label>
+                    <div className="flex items-center gap-3">
+                      <label className="btn-secondary cursor-pointer">
+                        <input ref={registroMedicoInputRef} type="file" accept="application/pdf,image/*" onChange={handleRegistroMedicoChange} onClick={(e) => e.stopPropagation()} className="hidden" />
+                        <Plus />
+                      </label>
+                      <div className="text-sm text-gray-600">{formData.registroMedico || 'Nenhum arquivo selecionado'}</div>
+                    </div>
+                  </div>
+
+                  <div className="col-span-2">
+                    <label className="label">Biografia</label>
+                    <textarea rows={4} placeholder="Conte mais sobre o seu pet..." value={formData.biografia} onChange={(e) => handleChange('biografia', e.target.value)} className="input resize-none" />
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
-        </main>
+
+          <div className="flex justify-end gap-3">
+            <button type="button" onClick={handleVoltar} className="btn-secondary">Voltar</button>
+            <button type="submit" className="btn">Salvar</button>
+          </div>
+        </form>
       </div>
-    </Layoutle=>
+    </Layout>
   );
 }

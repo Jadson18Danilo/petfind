@@ -1,8 +1,6 @@
-import Image from 'next/image';
-import { Home as HomeIcon, MessageCircle, User, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
-import svgPaths from '../imports/svg-g4lmkag22m';
 import Layout from '../src/components/Layout';
 
 export default function Home() {
@@ -45,46 +43,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FFF7F1]">
-      {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-[#FFA98F]/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="size-8">
-              <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 32 32">
-                <g>
-                  <path d={svgPaths.p3c8d2a00} stroke="#FFA98F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.66667" />
-                  <path d={svgPaths.p125aba00} stroke="#FFA98F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.66667" />
-                  <path d={svgPaths.p1e8b1e80} stroke="#FFA98F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.66667" />
-                  <path d={svgPaths.p10642800} stroke="#FFA98F" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.66667" />
-                </g>
-              </svg>
-            </div>
-            <span className="inline-flex items-center justify-center mr-[5px]" aria-hidden>
-              <Image src="/icons/paw.svg" alt="Ícone de pata" width={24} height={24} priority />
-            </span>
-            <h1 className="text-2xl font-bold text-[#ffa98f]">PetFind</h1>
-          </div>
-
-          {/* Navigation */}
-          <div className="hidden md:flex items-center gap-2">
-            <button className="size-12 rounded-xl bg-[rgba(255,169,143,0.13)] flex items-center justify-center hover:bg-[rgba(255,169,143,0.2)] transition-colors">
-              <HomeIcon className="size-6 text-[#FFA98F]" />
-            </button>
-            <button className="size-12 rounded-xl flex items-center justify-center hover:bg-gray-50 transition-colors">
-              <MessageCircle className="size-6 text-[#4A5565]" />
-            </button>
-            <button className="size-12 rounded-xl flex items-center justify-center hover:bg-gray-50 transition-colors">
-              <User className="size-6 text-[#4A5565]" />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="rounded-3xl p-8 md:p-12 space-y-24">
+    <Layout>
+      <div className="rounded-3xl p-8 md:p-12 space-y-24">
           {/* Hero Section */}
           <section className="flex flex-col items-center text-center space-y-8 relative" ref={heroRef} style={{ perspective: '1000px' }}>
           {/* Elementos de fundo decorativos com parallax */}
@@ -322,7 +282,6 @@ export default function Home() {
           </button>
         </section>
       </div>
-      </main>
-    </div>
+    </Layout>
   );
 }

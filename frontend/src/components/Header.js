@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getMe, logoutUser } from '../services/auth';
@@ -37,12 +36,17 @@ export default function Header() {
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
-       
-
-            <span className="inline-flex items-center justify-center mr-[5px]" aria-hidden>
-              <Image src="/icons/iconicone" alt="Ícone de pata" width={24} height={24} priority />
-            </span>
+          <Link href="/" className="flex items-center gap-1">
+            <img 
+              src="https://img.icons8.com/material-two-tone/24/cat-footprint.png" 
+              alt="Ícone de pegada de gato" 
+              width={24} 
+              height={24}
+              style={{ 
+                filter: 'sepia(1) saturate(4) hue-rotate(330deg) brightness(1.15) contrast(1.05)',
+                transform: 'rotate(40deg)'
+              }}
+            />
 
             <h1 className="text-2xl font-bold text-[#ffa98f]">
               PetFind
