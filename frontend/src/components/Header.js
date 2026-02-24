@@ -32,6 +32,14 @@ export default function Header() {
     setUser(null);
   }
 
+  function handleChatClick() {
+    router.push(user ? '/chat-on' : '/chat-off');
+  }
+
+  function handleProfileClick() {
+    router.push(user ? '/tutor-profile' : '/login-off');
+  }
+
   return (
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -64,24 +72,26 @@ export default function Header() {
             >
               <Home className={`w-6 h-6 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
             </Link>
-            <Link
-              href="/chat-on"
+            <button
+              type="button"
+              onClick={handleChatClick}
               className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
                 isChat ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
               }`}
               aria-label="Chat"
             >
               <MessageCircle className={`w-6 h-6 ${isChat ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
-            </Link>
-            <Link
-              href="/tutor-profile"
+            </button>
+            <button
+              type="button"
+              onClick={handleProfileClick}
               className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
                 isProfile ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
               }`}
               aria-label="Perfil"
             >
               <User className={`w-6 h-6 ${isProfile ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
-            </Link>
+            </button>
           </div>
         </div>
       </header>

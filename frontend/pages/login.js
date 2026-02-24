@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
-import Layout from '../src/components/Layout';
-import { loginUser } from '../src/services/auth';
-import { useRouter } from 'next/router';
-import { ArrowLeft } from 'lucide-react';
+import React, { useState } from "react";
+import Layout from "../src/components/Layout";
+import { loginUser } from "../src/services/auth";
+import { useRouter } from "next/router";
+import { ArrowLeft } from "lucide-react";
 
 export default function Login() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event) {
     event.preventDefault();
     if (isSubmitting) return;
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
     setIsSubmitting(true);
 
     try {
       await loginUser({ email, password });
-      setMessage('Login realizado.');
+      setMessage("Login realizado.");
       // navegar para pets (ou página de matches)
-      router.push('/pets');
+      router.push("/pets");
     } catch (err) {
-      setError(err?.response?.data?.error || 'Falha no login');
+      setError(err?.response?.data?.error || "Falha no login");
     } finally {
       setIsSubmitting(false);
     }
@@ -34,9 +34,9 @@ export default function Login() {
   return (
     <Layout>
       <div className="space-y-8">
-        <div className="space-y-6">
+        <div className="max-w-sm mx-auto space-y-6">
           <button
-            onClick={() => router.push('/')}
+            onClick={() => router.push("/")}
             className="flex items-center gap-2 px-4 py-3 bg-[#FFF7F1] rounded-xl"
           >
             <ArrowLeft className="w-5 h-5 text-[#0a0a0a]" />
@@ -45,11 +45,13 @@ export default function Login() {
 
           <div>
             <h2 className="text-4xl font-bold text-[#0a0a0a] mb-2">Entrar</h2>
-            <p className="text-[#4a5565]">Entre com suas credenciais para acessar sua conta</p>
+            <p className="text-[#4a5565]">
+              Entre com suas credenciais para acessar sua conta
+            </p>
           </div>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+        <div className="max-w-sm mx-auto bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label htmlFor="email" className="block text-sm text-[#0a0a0a]">
@@ -67,7 +69,10 @@ export default function Login() {
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="password" className="block text-sm text-[#0a0a0a]">
+              <label
+                htmlFor="password"
+                className="block text-sm text-[#0a0a0a]"
+              >
                 Senha *
               </label>
               <input
@@ -98,7 +103,7 @@ export default function Login() {
               aria-disabled={isSubmitting}
               aria-busy={isSubmitting}
             >
-              {isSubmitting ? 'Entrando...' : 'Entrar'}
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </button>
 
             <div className="text-center text-sm">
@@ -106,15 +111,23 @@ export default function Login() {
               <button
                 type="button"
                 className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent font-medium hover:underline"
-                onClick={() => router.push('/register')}
+                onClick={() => router.push("/register")}
               >
                 Cadastre-se
               </button>
             </div>
           </form>
 
-          {message && <p className="mt-3 text-green-600" role="status" aria-live="polite">{message}</p>}
-          {error && <p className="mt-3 text-red-600" role="alert" aria-live="assertive">{error}</p>}
+          {message && (
+            <p className="mt-3 text-green-600" role="status" aria-live="polite">
+              {message}
+            </p>
+          )}
+          {error && (
+            <p className="mt-3 text-red-600" role="alert" aria-live="assertive">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </Layout>
