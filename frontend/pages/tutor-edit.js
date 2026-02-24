@@ -145,7 +145,7 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
 
   return (
     <Layout>
-      <div className="page min-h-screen bg-[#FFF7F1]">
+      <div className="page min-h-screen page-bg">
         <main className="container-page py-12">
           <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -214,8 +214,8 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
               </div>
 
               <div className="flex justify-end gap-4">
-                <button type="button" onClick={() => onNavigateToPerfil?.() || router.back()} className="px-8 py-3 bg-white rounded-2xl">Cancelar</button>
-                <button type="submit" className="px-8 py-3 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-2xl">Salvar Alterações</button>
+                <button type="button" onClick={() => onNavigateToPerfil?.() || router.back()} className="btn-secondary px-8 py-3 rounded-2xl">Cancelar</button>
+                <button type="submit" className="btn px-8 py-3 rounded-2xl">Salvar Alterações</button>
               </div>
             </form>
           </div>

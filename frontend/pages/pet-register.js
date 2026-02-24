@@ -136,7 +136,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF7F1]">
+    <div className="min-h-screen page-bg">
       {/* Header */}
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -160,7 +160,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                 <div className="lg:col-span-1">
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-3">Foto Principal</label>
                   <div className="relative group">
-                    <div className="w-full aspect-square bg-gradient-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]">
+                    <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]">
                       {mainPhoto ? (
                         <img src={mainPhoto} className="w-full h-full object-cover" alt="Foto principal do pet" loading="lazy" decoding="async" />
                       ) : (
@@ -197,7 +197,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                   <div className="grid grid-cols-4 gap-3">
                     {additionalPhotos.map((photo, index) => (
                       <div key={index} className="relative group">
-                        <div className="w-full aspect-square bg-gradient-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/50 hover:border-[#FFA98F] transition-colors">
+                        <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/50 hover:border-[#FFA98F] transition-colors">
                           {photo ? (
                             <img src={photo} alt={`Foto ${index + 1}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                           ) : (
@@ -319,7 +319,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     <div className="mt-0.5">
                       <div className="size-6 rounded-full border-2 border-[#ffa98f] flex items-center justify-center">
                         {formData.objetivo === 'amizades' && (
-                          <div className="size-3 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566]" />
+                          <div className="size-3 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566]" />
                         )}
                       </div>
                     </div>
@@ -346,7 +346,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                     <div className="mt-0.5">
                       <div className="size-6 rounded-full border-2 border-[#ffa98f] flex items-center justify-center">
                         {formData.objetivo === 'encontros' && (
-                          <div className="size-3 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566]" />
+                          <div className="size-3 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566]" />
                         )}
                       </div>
                     </div>
@@ -366,14 +366,14 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
                   {/* Breeding Intent - Aparece apenas quando "Encontros" está selecionado */}
                   {formData.objetivo === 'encontros' && (
-                    <div className="mt-6 p-4 bg-gradient-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
+                    <div className="mt-6 p-4 bg-linear-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Pedigree *</label>
                           <select
                             value={formData.pedigree}
                             onChange={(e) => handleChange('pedigree', e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-[46px]"
+                            className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5"
                             required={formData.objetivo === 'encontros'}
                           >
                             <option value="">Selecione uma opção</option>
@@ -384,8 +384,8 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
                         <div>
                           <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Registro Médico</label>
-                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#FFA98F]/20 hover:border-[#FFA98F] transition-colors cursor-pointer bg-white w-full h-[46px]">
-                            <Plus className="w-5 h-5 text-[#FFA98F] flex-shrink-0" />
+                          <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#FFA98F]/20 hover:border-[#FFA98F] transition-colors cursor-pointer bg-white w-full h-11.5">
+                            <Plus className="w-5 h-5 text-[#FFA98F] shrink-0" />
                             <span className="text-sm text-[#4a5565]">Adicionar arquivo</span>
                             <input
                               type="file"
@@ -435,14 +435,14 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
               <button
                 type="button"
                 onClick={() => router.back()}
-                className="px-8 py-3 rounded-xl font-bold text-lg text-[#0a0a0a] bg-gray-200 hover:bg-gray-300 transition-colors"
+                className="btn-secondary px-8 py-3 text-lg"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-8 py-3 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-[#ffa98f] to-[#ff8566] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn px-8 py-3 text-lg"
               >
                 {isSubmitting ? 'Cadastrando...' : 'Cadastrar Pet'}
               </button>

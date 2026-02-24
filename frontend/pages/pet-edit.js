@@ -143,13 +143,13 @@ export default function PetEdit({ petData: initialPetData = null }) {
             <div className="mb-6 flex items-center justify-between">
               <h2 className="section-title">Editar perfil do pet</h2>
               <div className="flex items-center gap-2">
-                <button onClick={() => router.push('/match-display')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Ir para Match">
+                <button onClick={() => router.push('/match-display')} className="btn-icon" aria-label="Ir para Match">
                   <Heart />
                 </button>
-                <button onClick={() => router.push('/chat-on')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Chat">
+                <button onClick={() => router.push('/chat-on')} className="btn-icon" aria-label="Abrir Chat">
                   <MessageCircle />
                 </button>
-            <button onClick={() => router.push('/tutor-profile')} className="size-10 rounded-lg flex items-center justify-center hover:bg-slate-50" aria-label="Abrir Perfil">
+            <button onClick={() => router.push('/tutor-profile')} className="btn-icon" aria-label="Abrir Perfil">
               <User />
             </button>
           </div>
@@ -192,7 +192,7 @@ export default function PetEdit({ petData: initialPetData = null }) {
                         {p ? <img src={p} alt="Foto do pet" className="absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" /> : <div className="absolute inset-0 flex items-center justify-center text-gray-300">+</div>}
                         <input ref={(el) => (additionalPhotoRefs.current[i] = el)} type="file" accept="image/*" onChange={(e) => handleAdditionalPhotoChange(i, e)} onClick={(e) => e.stopPropagation()} className="absolute inset-0 opacity-0 cursor-pointer" />
                         {p && (
-                          <button type="button" onClick={() => removeAdditionalPhoto(i)} className="absolute top-1 right-1 bg-white rounded-full p-1 shadow">
+                          <button type="button" onClick={() => removeAdditionalPhoto(i)} className="btn-icon absolute top-1 right-1 size-6 p-0 rounded-full shadow">
                             <X className="size-3" />
                           </button>
                         )}

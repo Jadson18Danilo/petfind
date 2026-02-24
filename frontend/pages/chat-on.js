@@ -207,7 +207,7 @@ export default function ChatOn() {
   if (loading) {
     return (
       <Layout>
-        <div className="min-h-screen bg-[#FFF7F1] flex items-center justify-center">
+        <div className="min-h-screen page-bg flex items-center justify-center">
           <p className="text-gray-500">Carregando chat...</p>
         </div>
       </Layout>
@@ -216,10 +216,10 @@ export default function ChatOn() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#FFF7F1] flex flex-col items-center justify-center py-8 px-4">
+      <div className="min-h-screen page-bg flex flex-col items-center justify-center py-8 px-4">
         <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex" style={{ minHeight: '75vh', maxHeight: '85vh' }}>
           {/* Conversations List */}
-          <div className="w-80 border-r border-slate-200 bg-gradient-to-b from-[#FFF7F1] to-white flex flex-col shrink-0">
+          <div className="w-80 border-r border-slate-200 bg-linear-to-b from-[#FFF7F1] to-white flex flex-col shrink-0">
             <div className="px-6 py-6 border-b border-slate-200">
               <h2 className="text-2xl font-bold text-[#0a0a0a]">Conversas</h2>
             </div>
@@ -234,11 +234,11 @@ export default function ChatOn() {
                   }`}
                 >
                   <div className="relative shrink-0">
-                    <div className="w-14 h-14 rounded-full bg-slate-100 overflow-hidden flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-slate-100 overflow-hidden shrink-0">
                       {conv.avatar ? (
                         <img src={conv.avatar} alt={conv.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold text-xl">
+                        <div className="w-full h-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold text-xl">
                           {conv.type === 'support' ? '🐾' : 'M'}
                         </div>
                       )}
@@ -261,13 +261,13 @@ export default function ChatOn() {
           <div className="flex-1 flex flex-col min-w-0">
             {/* Chat Header */}
             {activeConv && (
-              <div className="px-6 py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-gradient-to-r from-[#FFF7F1] to-white">
+              <div className="px-6 py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-linear-to-r from-[#FFF7F1] to-white">
                 <div className="flex items-center gap-4 min-w-0 flex-1">
                   <div className="w-12 h-12 rounded-full bg-slate-100 overflow-hidden shrink-0">
                     {activeConv.avatar ? (
                       <img src={activeConv.avatar} alt={activeConv.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold">
+                      <div className="w-full h-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold">
                         {activeConv.type === 'support' ? '🐾' : 'M'}
                       </div>
                     )}
@@ -278,7 +278,7 @@ export default function ChatOn() {
                   </div>
                 </div>
                 {activeConv.type !== 'support' && (
-                  <button className="px-4 py-2 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white text-sm hover:shadow-lg transition-shadow shrink-0">
+                  <button className="btn btn-pill px-4 py-2 shrink-0">
                     Ver Perfil
                   </button>
                 )}
@@ -293,7 +293,7 @@ export default function ChatOn() {
                     <div
                       className={`max-w-md px-4 py-3 rounded-2xl ${
                         message.isSent
-                          ? 'bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-br-none'
+                          ? 'bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-br-none'
                           : 'bg-white shadow-sm text-[#101828] rounded-bl-none'
                       }`}
                     >
@@ -319,7 +319,7 @@ export default function ChatOn() {
               <div className="flex items-end gap-3 mb-3">
                 <button
                   onClick={() => setShowPedigreeModal(true)}
-                  className="w-10 h-10 rounded-full border-2 border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-colors shrink-0"
+                  className="btn-secondary btn-pill w-10 h-10 p-0 border-2 border-slate-200 shrink-0"
                   title="Enviar pedigree"
                 >
                   <Paperclip className="w-5 h-5 text-gray-600" />
@@ -335,7 +335,7 @@ export default function ChatOn() {
                 <button
                   onClick={handleSendMessage}
                   disabled={!newMessage.trim()}
-                  className="w-10 h-10 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                  className="btn btn-pill w-10 h-10 p-0 shrink-0"
                 >
                   <Send className="w-5 h-5 text-white" />
                 </button>
@@ -386,7 +386,7 @@ export default function ChatOn() {
                   />
                   <button
                     onClick={() => fileInputRef.current?.click()}
-                    className="px-4 py-2 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white text-sm rounded-full hover:shadow-lg transition-shadow"
+                    className="btn btn-pill px-4 py-2"
                   >
                     Selecionar Arquivo
                   </button>
@@ -400,14 +400,14 @@ export default function ChatOn() {
                   setShowPedigreeModal(false);
                   setPedigreeFile(null);
                 }}
-                className="flex-1 px-4 py-3 border border-slate-300 text-gray-600 text-sm rounded-full hover:bg-gray-50 transition-colors"
+                className="btn-secondary btn-pill flex-1 px-4 py-3 text-gray-600"
               >
                 Cancelar
               </button>
               <button
                 onClick={handleSendPedigree}
                 disabled={!pedigreeFile}
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white text-sm rounded-full hover:shadow-lg transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn btn-pill flex-1 px-4 py-3"
               >
                 Enviar
               </button>

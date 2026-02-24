@@ -48,7 +48,7 @@ export default function Login() {
         <div className="max-w-sm mx-auto space-y-6">
           <button
             onClick={() => router.push("/")}
-            className="flex items-center gap-2 px-4 py-3 bg-[#FFF7F1] rounded-xl"
+            className="btn-secondary px-4 py-3"
           >
             <ArrowLeft className="w-5 h-5 text-[#0a0a0a]" />
             <span className="text-xl text-[#0a0a0a]">Voltar</span>
@@ -101,7 +101,7 @@ export default function Login() {
             <div className="flex justify-end">
               <button
                 type="button"
-                className="text-sm bg-gradient-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent hover:underline"
+                className="text-sm bg-linear-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent hover:underline"
               >
                 Esqueceu a senha?
               </button>
@@ -109,7 +109,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white py-3 rounded-xl font-medium hover:shadow-lg transition-shadow"
+              className="btn w-full py-3"
               disabled={isSubmitting}
               aria-disabled={isSubmitting}
               aria-busy={isSubmitting}
@@ -121,7 +121,7 @@ export default function Login() {
               <span className="text-[#4a5565]">Não tem uma conta? </span>
               <button
                 type="button"
-                className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent font-medium hover:underline"
+                className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] bg-clip-text text-transparent font-medium hover:underline"
                 onClick={() => router.push("/register")}
               >
                 Cadastre-se

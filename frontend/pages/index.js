@@ -49,21 +49,21 @@ export default function Home() {
           <section className="flex flex-col items-center text-center space-y-8 relative" ref={heroRef} style={{ perspective: '1000px' }}>
           {/* Elementos de fundo decorativos com parallax */}
           <div
-            className="absolute top-10 left-10 w-20 h-20 rounded-full bg-gradient-to-br from-[#FFA98F] to-[#FF8566] opacity-20 blur-2xl"
+            className="absolute top-10 left-10 w-20 h-20 rounded-full bg-linear-to-br from-[#FFA98F] to-[#FF8566] opacity-20 blur-2xl"
             style={{
               transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px) translateY(${scrollY * 0.5}px)`,
               transition: 'transform 0.3s ease-out'
             }}
           />
           <div
-            className="absolute top-32 right-20 w-32 h-32 rounded-full bg-gradient-to-br from-[#FF8566] to-[#FFA98F] opacity-15 blur-3xl"
+            className="absolute top-32 right-20 w-32 h-32 rounded-full bg-linear-to-br from-[#FF8566] to-[#FFA98F] opacity-15 blur-3xl"
             style={{
               transform: `translate(${mousePosition.x * -40}px, ${mousePosition.y * -40}px) translateY(${scrollY * 0.3}px)`,
               transition: 'transform 0.3s ease-out'
             }}
           />
           <div
-            className="absolute bottom-20 left-1/4 w-24 h-24 rounded-full bg-gradient-to-br from-[#FFA98F] to-[#FF8566] opacity-10 blur-2xl"
+            className="absolute bottom-20 left-1/4 w-24 h-24 rounded-full bg-linear-to-br from-[#FFA98F] to-[#FF8566] opacity-10 blur-2xl"
             style={{
               transform: `translate(${mousePosition.x * 25}px, ${mousePosition.y * 25}px) translateY(${scrollY * 0.4}px)`,
               transition: 'transform 0.3s ease-out'
@@ -72,7 +72,7 @@ export default function Home() {
 
           {/* Conteúdo principal com parallax 3D */}
           <div
-            className="bg-[#ffa98f] rounded-full w-[70px] h-[70px] flex items-center justify-center p-3 relative z-10 shadow-lg"
+            className="bg-[#ffa98f] rounded-full w-17.5 h-17.5 flex items-center justify-center p-3 relative z-10 shadow-lg"
             style={{
               transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) translateY(${scrollY * 0.2}px) rotateX(${mousePosition.y * 5}deg) rotateY(${mousePosition.x * 5}deg)`,
               transition: 'transform 0.3s ease-out'
@@ -105,7 +105,7 @@ export default function Home() {
 
           <button
             onClick={onNavigateToLogin}
-            className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white px-8 py-4 rounded-xl font-bold text-xl flex items-center gap-2 hover:shadow-2xl transition-all relative z-10 hover:scale-105"
+            className="btn btn-lg hover:shadow-2xl relative z-10"
             style={{
               transform: `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px) translateY(${scrollY * 0.05}px)`,
               transition: 'transform 0.3s ease-out'
@@ -120,7 +120,7 @@ export default function Home() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {/* Feature 1 */}
           <div
-            className="group rounded-2xl p-[2px] bg-white hover:bg-gradient-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.05}px)`,
               transition: 'transform 0.1s ease-out'
@@ -149,7 +149,7 @@ export default function Home() {
 
           {/* Feature 2 */}
           <div
-            className="group rounded-2xl p-[2px] bg-white hover:bg-gradient-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.08}px)`,
               transition: 'transform 0.1s ease-out'
@@ -178,7 +178,7 @@ export default function Home() {
 
           {/* Feature 3 */}
           <div
-            className="group rounded-2xl p-[2px] bg-white hover:bg-gradient-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.06}px)`,
               transition: 'transform 0.1s ease-out'
@@ -207,7 +207,7 @@ export default function Home() {
         </section>
 
         {/* How It Works Section */}
-        <section className="group rounded-3xl p-[2px] bg-white hover:bg-gradient-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm">
+        <section className="group rounded-3xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm">
           <div className="bg-white rounded-[22px] p-8 md:p-12 h-full group-hover:scale-[1.02] transition-transform duration-300">
             <h2 className="text-4xl font-bold text-[#0a0a0a] text-center mb-16">Como Funciona</h2>
 
@@ -215,7 +215,7 @@ export default function Home() {
               {/* Step 1 */}
               <div className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
                     1
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export default function Home() {
               {/* Step 2 */}
               <div className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
                     2
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default function Home() {
               {/* Step 3 */}
               <div className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
                     3
                   </div>
                 </div>
@@ -254,7 +254,7 @@ export default function Home() {
               {/* Step 4 */}
               <div className="text-center space-y-4">
                 <div className="flex justify-center">
-                  <div className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
+                  <div className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl">
                     4
                   </div>
                 </div>
@@ -275,7 +275,7 @@ export default function Home() {
           </p>
           <button
             onClick={onNavigateToCadastrar}
-            className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white px-8 py-4 rounded-xl font-bold text-xl flex items-center gap-2 hover:shadow-lg transition-shadow mx-auto"
+            className="btn btn-lg hover:shadow-lg mx-auto"
           >
             Criar Conta Grátis
             <ArrowRight className="size-6" />

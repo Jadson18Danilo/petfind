@@ -171,7 +171,7 @@ export default function Pets() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#FFF7F1]">
+      <div className="min-h-screen page-bg">
         <main className="max-w-4xl mx-auto px-6 lg:px-8 py-16">
           <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12">
             <h2 className="text-4xl font-bold text-[#0a0a0a] mb-2">Cadastrar novo pet</h2>
@@ -186,7 +186,7 @@ export default function Pets() {
                   <div className="lg:col-span-1">
                     <label className="block text-sm font-semibold text-[#0a0a0a] mb-3">Foto Principal</label>
                     <div className="relative group">
-                      <div className="w-full aspect-square bg-gradient-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]">
+                      <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]">
                         {mainPhoto ? (
                           <img src={mainPhoto} className="w-full h-full object-cover" alt="Foto principal do pet" loading="lazy" decoding="async" />
                         ) : (
@@ -208,7 +208,7 @@ export default function Pets() {
                       />
 
                       {mainPhoto && (
-                        <button type="button" onClick={removeMainPhoto} className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-2 hover:bg-red-600 transition-colors shadow-lg">
+                        <button type="button" onClick={removeMainPhoto} className="btn-danger-icon absolute top-2 right-2 size-9 p-0 rounded-full shadow-lg">
                           <X className="w-5 h-5" />
                         </button>
                       )}
@@ -220,11 +220,11 @@ export default function Pets() {
                     <div className="grid grid-cols-4 gap-3">
                       {additionalPhotos.map((p, idx) => (
                         <div key={idx} className="relative group">
-                          <div className="w-full aspect-square bg-gradient-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/50 hover:border-[#FFA98F] transition-colors">
+                          <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/50 hover:border-[#FFA98F] transition-colors">
                             {p ? <img src={p} alt={`add-${idx}`} className="w-full h-full object-cover" loading="lazy" decoding="async" /> : <div className="text-center"><Plus className="w-6 h-6 text-[#FFA98F] mx-auto opacity-50" /></div>}
                           </div>
                           <input ref={(el) => (additionalPhotoRefs.current[idx] = el)} type="file" accept="image/*" onChange={(e) => handleAdditionalPhotoChange(idx, e)} className="absolute inset-0 opacity-0 cursor-pointer" />
-                          {p && <button type="button" onClick={() => removeAdditionalPhoto(idx)} className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors shadow-lg"><X className="w-4 h-4" /></button>}
+                          {p && <button type="button" onClick={() => removeAdditionalPhoto(idx)} className="btn-danger-icon absolute -top-2 -right-2 size-7 p-0 rounded-full shadow-lg"><X className="w-4 h-4" /></button>}
                         </div>
                       ))}
                     </div>
@@ -284,7 +284,7 @@ export default function Pets() {
                       <div className="mt-0.5">
                         <div className="size-6 rounded-full border-2 border-[#ffa98f] flex items-center justify-center">
                           {formData.objetivo === 'amizades' && (
-                            <div className="size-3 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566]" />
+                            <div className="size-3 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566]" />
                           )}
                         </div>
                       </div>
@@ -303,7 +303,7 @@ export default function Pets() {
                       <div className="mt-0.5">
                         <div className="size-6 rounded-full border-2 border-[#ffa98f] flex items-center justify-center">
                           {formData.objetivo === 'encontros' && (
-                            <div className="size-3 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566]" />
+                            <div className="size-3 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566]" />
                           )}
                         </div>
                       </div>
@@ -315,11 +315,11 @@ export default function Pets() {
                     </label>
 
                     {formData.objetivo === 'encontros' && (
-                      <div className="mt-6 p-4 bg-gradient-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
+                      <div className="mt-6 p-4 bg-linear-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Pedigree *</label>
-                            <select value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-[46px]">
+                            <select value={formData.pedigree} onChange={(e) => handleChange('pedigree', e.target.value)} className="w-full px-4 py-2 rounded-lg border-2 border-[#FFA98F]/20 focus:border-[#FFA98F] focus:outline-none transition-colors bg-white h-11.5">
                               <option value="">Selecione uma opção</option>
                               <option value="sim">Sim, Verificado</option>
                               <option value="nao">Não Possui</option>
@@ -328,8 +328,8 @@ export default function Pets() {
 
                           <div>
                             <label className="block text-sm font-bold text-[#0a0a0a] mb-3">Registro Médico</label>
-                            <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#FFA98F]/20 hover:border-[#FFA98F] transition-colors cursor-pointer bg-white w-full h-[46px]">
-                              <Plus className="w-5 h-5 text-[#FFA98F] flex-shrink-0" />
+                            <label className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg border-2 border-[#FFA98F]/20 hover:border-[#FFA98F] transition-colors cursor-pointer bg-white w-full h-11.5">
+                              <Plus className="w-5 h-5 text-[#FFA98F] shrink-0" />
                               <span className="text-sm text-[#4a5565]">Adicionar arquivo</span>
                               <input ref={registroMedicoInputRef} type="file" accept="application/pdf,image/*" className="hidden" onChange={handleRegistroMedicoChange} />
                             </label>
@@ -359,8 +359,8 @@ export default function Pets() {
               </div>
 
                     <div className="flex justify-end gap-4 pt-4">
-                      <button type="button" onClick={() => router.back()} className="px-8 py-3 rounded-xl font-bold text-lg text-[#0a0a0a] bg-gray-200 hover:bg-gray-300 transition-colors">Cancelar</button>
-                      <button type="submit" disabled={isSubmitting} className="px-8 py-3 rounded-xl font-bold text-lg text-white bg-gradient-to-r from-[#ffa98f] to-[#ff8566] hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed">{isSubmitting ? 'Cadastrando...' : 'Cadastrar Pet'}</button>
+                      <button type="button" onClick={() => router.back()} className="btn-secondary px-8 py-3 text-lg">Cancelar</button>
+                      <button type="submit" disabled={isSubmitting} className="btn px-8 py-3 text-lg">{isSubmitting ? 'Cadastrando...' : 'Cadastrar Pet'}</button>
                     </div>
 
                     {message && (

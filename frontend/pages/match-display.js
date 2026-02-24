@@ -236,7 +236,7 @@ export default function MatchDisplay({
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#FFF7F1]">
+      <div className="min-h-screen page-bg">
         {/* Main Content */}
         <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-8 min-h-screen">
           {loading ? (
@@ -289,11 +289,11 @@ export default function MatchDisplay({
                       Sem foto
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0)]" />
+                  <div className="absolute inset-0 bg-linear-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0)]" />
                   
                   {/* Badges */}
                   <div className="absolute top-3 left-3">
-                    <div className="bg-gradient-to-r from-[#ffa98f] to-[#ff8566] px-3 py-1 rounded-full">
+                    <div className="bg-linear-to-r from-[#ffa98f] to-[#ff8566] px-3 py-1 rounded-full">
                       <p className="text-xs font-bold text-white">NOVO!</p>
                     </div>
                   </div>
@@ -356,7 +356,7 @@ export default function MatchDisplay({
                 </button>
                 <button
                   onClick={handleLike}
-                  className="size-20 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
+                  className="size-20 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
                   aria-label="Curtir perfil"
                 >
                   <Heart className="size-10 text-white fill-white" />
@@ -383,7 +383,7 @@ export default function MatchDisplay({
               </p>
               <button
                 onClick={handleGoRegister}
-                className="px-6 py-3 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-full hover:shadow-lg transition-shadow"
+                className="btn btn-pill px-6 py-3"
               >
                 Cadastrar pet
               </button>
@@ -401,7 +401,7 @@ export default function MatchDisplay({
               </p>
               <button
                 onClick={handleGoMatches}
-                className="px-6 py-3 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-full hover:shadow-lg transition-shadow"
+                className="btn btn-pill px-6 py-3"
               >
                 Ver Meus Matches
               </button>
@@ -411,9 +411,9 @@ export default function MatchDisplay({
 
       {/* Notificação de Match */}
       {showMatchNotification && currentMatch && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[100] p-4">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-100 p-4">
           <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 text-center animate-in zoom-in duration-500">
-            <div className="size-24 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center animate-bounce">
+            <div className="size-24 mx-auto mb-6 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center animate-bounce">
               <Heart className="size-12 text-white fill-white" />
             </div>
             
@@ -444,7 +444,7 @@ export default function MatchDisplay({
                   </div>
                 )}
               </div>
-              <div className="size-16 rounded-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center">
+              <div className="size-16 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center">
                 <Heart className="size-8 text-white fill-white" />
               </div>
               <div className="size-20 rounded-full bg-[#e5e7eb] flex items-center justify-center text-3xl">
@@ -455,13 +455,13 @@ export default function MatchDisplay({
             <div className="flex gap-3">
               <button
                 onClick={closeMatchNotification}
-                className="flex-1 px-4 py-3 border-2 border-[#e5e7eb] text-[#4a5565] rounded-full hover:bg-gray-50 transition-colors font-medium"
+                className="btn-secondary btn-pill flex-1 px-4 py-3 border-2 border-[#e5e7eb] text-[#4a5565]"
               >
                 Continuar
               </button>
               <button
                 onClick={handleChatFromMatch}
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-full hover:shadow-lg transition-shadow font-medium"
+                className="btn btn-pill flex-1 px-4 py-3"
               >
                 Conversar
               </button>

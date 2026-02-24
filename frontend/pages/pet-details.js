@@ -107,7 +107,7 @@ export default function PetDetails({ petData }) {
                     <input ref={mainPhotoInputRef} type="file" accept="image/*" onChange={handleMainPhotoChange} onClick={(e) => e.stopPropagation()} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" aria-label="Selecionar foto principal" />
                   </div>
                   {mainPhoto && (
-                    <button type="button" onClick={removeMainPhoto} className="mt-2 inline-flex items-center gap-2 text-sm text-slate-600">
+                    <button type="button" onClick={removeMainPhoto} className="btn-text mt-2 text-slate-600">
                       <X className="size-4" /> Remover foto
                     </button>
                   )}
@@ -144,7 +144,7 @@ export default function PetDetails({ petData }) {
                       <div key={idx} className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden relative">
                         {p ? <img src={p} alt={`add-${idx}`} className="w-full h-full object-cover" loading="lazy" decoding="async" /> : <div className="flex items-center justify-center h-full text-gray-300">+</div>}
                         <input ref={(el) => (additionalPhotoRefs.current[idx] = el)} type="file" accept="image/*" onChange={(e) => handleAdditionalPhotoChange(idx, e)} className="absolute inset-0 opacity-0 cursor-pointer" />
-                        {p && <button type="button" onClick={() => removeAdditionalPhoto(idx)} className="absolute top-1 right-1 bg-white rounded-full p-1 shadow"><X className="size-3 text-gray-600" /></button>}
+                        {p && <button type="button" onClick={() => removeAdditionalPhoto(idx)} className="btn-icon absolute top-1 right-1 size-6 p-0 rounded-full shadow"><X className="size-3 text-gray-600" /></button>}
                       </div>
                     ))}
                   </div>

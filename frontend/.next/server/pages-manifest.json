@@ -1,9 +1,8 @@
 {
-  "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+  "/_app": "pages/_app.js",
+  "/chat-off": "pages/chat-off.js",
   "/tutor-profile": "pages/tutor-profile.js",
-  "/tutor-edit": "pages/tutor-edit.js",
-  "/match-display": "pages/match-display.js",
-  "/matches": "pages/matches.js"
+  "/tutor-edit": "pages/tutor-edit.js"
 }

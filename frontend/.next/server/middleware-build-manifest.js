@@ -19,11 +19,6 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/match-display": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/match-display.js"
-    ],
     "/tutor-edit": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

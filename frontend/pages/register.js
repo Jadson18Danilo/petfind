@@ -53,12 +53,12 @@ export default function Register() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#FFF7F1]">
+      <div className="min-h-screen page-bg">
         <main className="max-w-md mx-auto px-6 py-12">
         <div className="space-y-8">
           <button
             onClick={onNavigateToHome}
-            className="flex items-center gap-2 px-4 py-3 rounded-xl"
+            className="btn-secondary px-4 py-3"
           >
             <ArrowLeft className="size-5" />
             <span className="text-xl">Voltar</span>
@@ -111,7 +111,7 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white py-3 rounded-xl disabled:opacity-60"
+                className="btn w-full py-3"
                 disabled={loading}
                 aria-disabled={loading}
                 aria-busy={loading}

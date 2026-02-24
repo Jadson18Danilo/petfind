@@ -23,6 +23,22 @@
   * {
     box-sizing: border-box;
   }
+
+  button {
+    transition-property: transform, box-shadow, background-color, border-color, color, opacity;
+    transition-duration: 220ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  button:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+  }
 }
 
 @layer components {
@@ -45,12 +61,11 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl text-white px-4 py-2 text-sm font-medium shadow-sm hover:opacity-95;
-    background: linear-gradient(90deg,#ffa98f,#ff8566);
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-white px-4 py-2.5 text-sm font-semibold shadow-sm hover:opacity-95 bg-linear-to-r from-[#ffa98f] to-[#ff8566];
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white text-slate-900 px-4 py-2 text-sm font-medium hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2;
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white text-slate-900 px-4 py-2.5 text-sm font-semibold hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2;
   }
 
   .btn-ghost {
@@ -59,6 +74,26 @@
 
   .btn-light {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 text-white px-4 py-2 text-sm font-medium hover:bg-white/20;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg font-bold;
+  }
+
+  .btn-pill {
+    @apply rounded-full;
+  }
+
+  .btn-text {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-2 py-1 text-sm font-medium text-[#ff8566] hover:bg-[#FFF7F1];
+  }
+
+  .btn-icon {
+    @apply inline-flex items-center justify-center size-10 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-50;
+  }
+
+  .btn-danger-icon {
+    @apply inline-flex items-center justify-center size-10 rounded-xl border border-red-200 bg-white text-red-500 hover:bg-red-50;
   }
 
   .input {
@@ -114,6 +149,11 @@
     background-color: rgba(255, 169, 143, 0.5);
     background-clip: content-box;
   }
+}
+
+/* Page background utility for consistent pages */
+.page-bg {
+  background: #FFF7F1;
 }
 
 /* Fallback brand utility classes for environments where Tailwind custom colors aren't available */

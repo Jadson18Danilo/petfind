@@ -16,7 +16,7 @@ export default function PerfilOff({
 
   return (
     <Layout>
-      <div className="min-h-screen bg-[#FFF7F1] flex flex-col">
+      <div className="min-h-screen page-bg flex flex-col">
         <main className="flex-1 flex items-center justify-center px-6 py-12">
           <div className="max-w-md w-full text-center">
             {/* Icon */}
@@ -70,7 +70,7 @@ export default function PerfilOff({
             {/* CTA */}
             <button
               onClick={goToLogin}
-              className="mt-6 w-full max-w-xs mx-auto bg-gradient-to-r from-[#ffa98f] to-[#ff8566] text-white px-8 py-4 rounded-xl font-medium text-lg hover:shadow-lg transition-shadow"
+              className="btn btn-lg mt-6 w-full max-w-xs mx-auto"
             >
               Entrar
             </button>
