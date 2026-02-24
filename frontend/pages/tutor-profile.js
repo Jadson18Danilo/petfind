@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Layout from "../src/components/Layout";
 import { useRouter } from "next/router";
-import { getMe } from "../src/services/auth";
+import { getMe, logoutUser } from "../src/services/auth";
 import { listPets } from "../src/services/pets";
 import { showToast } from "../src/services/toast";
 
@@ -145,12 +145,14 @@ export default function PerfilTutor({
           description: "Tem certeza que deseja sair agora?",
           confirmText: "Sair",
           confirmStyle: "btn-secondary bg-[#FFF7F1] text-[#ff8566] border-[#F2D4C8]",
-          onConfirm: () => {
+          onConfirm: async () => {
             closeConfirmModal();
-            if (onNavigateToHome) {
-              onNavigateToHome();
-            } else {
-              router.push("/");
+            try {
+              await logoutUser();
+            } catch (error) {
+              showToast("Não foi possível encerrar a sessão agora.", "error");
+            } finally {
+              router.push("/login");
             }
           },
         }
