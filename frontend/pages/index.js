@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="rounded-3xl p-8 md:p-12 space-y-24">
+      <div className="rounded-3xl p-4 sm:p-6 md:p-12 space-y-14 sm:space-y-20 md:space-y-24">
           {/* Hero Section */}
           <section className="flex flex-col items-center text-center space-y-8 relative" ref={heroRef} style={{ perspective: '1000px' }}>
           {/* Elementos de fundo decorativos com parallax */}
@@ -84,7 +84,7 @@ export default function Home() {
           </div>
 
           <h2
-            className="text-4xl md:text-6xl font-bold text-[#0a0a0a] max-w-4xl leading-tight relative z-10"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold text-[#0a0a0a] max-w-4xl leading-tight relative z-10"
             style={{
               transform: `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px) translateY(${scrollY * 0.15}px)`,
               transition: 'transform 0.3s ease-out'
@@ -94,7 +94,7 @@ export default function Home() {
           </h2>
 
           <p
-            className="text-lg md:text-2xl text-[#4a5565] max-w-2xl leading-relaxed relative z-10"
+            className="text-base sm:text-lg md:text-2xl text-[#4a5565] max-w-2xl leading-relaxed relative z-10"
             style={{
               transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) translateY(${scrollY * 0.1}px)`,
               transition: 'transform 0.3s ease-out'
@@ -105,7 +105,7 @@ export default function Home() {
 
           <button
             onClick={onNavigateToLogin}
-            className="btn btn-lg hover:shadow-2xl relative z-10"
+            className="btn btn-lg hover:shadow-2xl relative z-10 w-full sm:w-auto"
             style={{
               transform: `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px) translateY(${scrollY * 0.05}px)`,
               transition: 'transform 0.3s ease-out'
@@ -209,7 +209,7 @@ export default function Home() {
         {/* How It Works Section */}
         <section className="group rounded-3xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm">
           <div className="bg-white rounded-[22px] p-8 md:p-12 h-full group-hover:scale-[1.02] transition-transform duration-300">
-            <h2 className="text-4xl font-bold text-[#0a0a0a] text-center mb-16">Como Funciona</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#0a0a0a] text-center mb-10 sm:mb-16">Como Funciona</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* Step 1 */}
@@ -269,7 +269,7 @@ export default function Home() {
 
         {/* CTA Section */}
         <section className="text-center space-y-6 py-8">
-          <h2 className="text-4xl font-bold text-[#0a0a0a]">Pronto para começar?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#0a0a0a]">Pronto para começar?</h2>
           <p className="text-lg text-[#4a5565] max-w-2xl mx-auto">
             Junte-se a milhares de tutores que já encontraram companhia para seus pets!
           </p>

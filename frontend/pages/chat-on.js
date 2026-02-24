@@ -17,6 +17,7 @@ export default function ChatOn() {
   const [userName, setUserName] = useState('');
   const [currentUserId, setCurrentUserId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showConversationListMobile, setShowConversationListMobile] = useState(true);
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -227,19 +228,35 @@ export default function ChatOn() {
 
   return (
     <Layout>
-      <div className="min-h-screen page-bg flex flex-col items-center justify-center py-8 px-4">
-        <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex" style={{ minHeight: '75vh', maxHeight: '85vh' }}>
+      <div className="min-h-screen page-bg flex flex-col items-center justify-center py-4 sm:py-8 px-3 sm:px-4">
+        <div className="w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row" style={{ minHeight: '75vh', maxHeight: '85vh' }}>
+          <div className="md:hidden px-4 py-3 border-b border-slate-200 bg-white flex items-center justify-between">
+            <p className="text-sm font-semibold text-[#0a0a0a]">Chat</p>
+            <button
+              type="button"
+              className="btn-secondary px-3 py-1.5 text-xs"
+              onClick={() => setShowConversationListMobile((prev) => !prev)}
+            >
+              {showConversationListMobile ? 'Abrir conversa' : 'Ver conversas'}
+            </button>
+          </div>
+
           {/* Conversations List */}
-          <div className="w-80 border-r border-slate-200 bg-[#FFF7F1]/70 flex flex-col shrink-0 backdrop-blur-[1px]">
+          <div className={`${showConversationListMobile ? 'flex' : 'hidden'} md:flex w-full md:w-80 border-r border-slate-200 bg-[#FFF7F1]/70 flex-col shrink-0 backdrop-blur-[1px]`}>
             <div className="px-6 py-6 border-b border-slate-200">
-              <h2 className="text-2xl font-bold text-[#0a0a0a]">Conversas</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-[#0a0a0a]">Conversas</h2>
             </div>
 
             <div className="flex-1 overflow-y-auto scrollbar-soft">
               {conversations.map((conv) => (
                 <button
                   key={conv.id}
-                  onClick={() => setActiveConversation(conv.id)}
+                  onClick={() => {
+                    setActiveConversation(conv.id);
+                    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+                      setShowConversationListMobile(false);
+                    }
+                  }}
                   className={`w-full px-4 py-4 flex gap-3 border-b border-slate-100 hover:bg-slate-50 transition-colors text-left ${
                     activeConversation === conv.id ? 'bg-white ring-l-2 ring-[#ffa98f]' : ''
                   }`}
@@ -269,10 +286,10 @@ export default function ChatOn() {
           </div>
 
           {/* Chat Area */}
-          <div className="flex-1 flex flex-col min-w-0">
+          <div className={`${showConversationListMobile ? 'hidden' : 'flex'} md:flex flex-1 flex-col min-w-0`}>
             {/* Chat Header */}
             {activeConv && (
-              <div className="px-6 py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-[#FFF7F1]/70 backdrop-blur-[1px]">
+              <div className="px-4 sm:px-6 py-4 sm:py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-[#FFF7F1]/70 backdrop-blur-[1px]">
                 <div className="flex items-center gap-4 min-w-0 flex-1">
                   <div className="w-12 h-12 rounded-full bg-slate-100 overflow-hidden shrink-0">
                     {activeConv.avatar ? (
@@ -289,7 +306,7 @@ export default function ChatOn() {
                   </div>
                 </div>
                 {activeConv.type !== 'support' && (
-                  <button className="btn btn-pill px-4 py-2 shrink-0">
+                  <button className="btn btn-pill px-3 sm:px-4 py-2 shrink-0 text-xs sm:text-sm">
                     Ver Perfil
                   </button>
                 )}
@@ -297,12 +314,12 @@ export default function ChatOn() {
             )}
 
             {/* Messages Area */}
-            <div className="flex-1 bg-slate-50 px-6 py-6 overflow-y-auto scrollbar-soft">
+            <div className="flex-1 bg-slate-50 px-4 sm:px-6 py-4 sm:py-6 overflow-y-auto scrollbar-soft">
               <div className="space-y-4">
                 {messages.map((message) => (
                   <div key={message.id} className={`flex ${message.isSent ? 'justify-end' : 'justify-start'}`}>
                     <div
-                      className={`max-w-md px-4 py-3 rounded-2xl ${
+                      className={`max-w-[86%] sm:max-w-md px-4 py-3 rounded-2xl ${
                         message.isSent
                             ? 'bg-[#FFA98F]/85 text-white rounded-br-none'
                           : 'bg-white shadow-sm text-[#101828] rounded-bl-none'
@@ -326,7 +343,7 @@ export default function ChatOn() {
             </div>
 
             {/* Message Input */}
-            <div className="px-6 py-6 border-t border-slate-200 bg-white shrink-0">
+            <div className="px-4 sm:px-6 py-4 sm:py-6 border-t border-slate-200 bg-white shrink-0">
               <div className="flex items-end gap-3 mb-3">
                 <button
                   onClick={() => setShowPedigreeModal(true)}

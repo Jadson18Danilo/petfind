@@ -376,7 +376,7 @@ export default function MatchDisplay({
               <button onClick={handleGoPerfil} className="mt-4 btn">Ir para perfil</button>
             </div>
           ) : currentProfile ? (
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-[min(100%,28rem)]">
               {/* Card do Pet */}
               <div 
                 className={`group bg-white rounded-2xl shadow-[0px_10px_15px_-3px_rgba(0,0,0,0.1),0px_4px_6px_-4px_rgba(0,0,0,0.1)] transition-all duration-300 relative ${
@@ -397,7 +397,7 @@ export default function MatchDisplay({
                 />
                 
                 {/* Imagem */}
-                <div className="relative h-80 sm:h-96 overflow-hidden rounded-t-2xl">
+                <div className="relative h-72 sm:h-96 overflow-hidden rounded-t-2xl">
                   {currentProfileImages.length > 0 && (
                     <div className="absolute top-3 left-3 right-3 z-20 flex gap-1.5">
                       {currentProfileImages.map((img, index) => {
@@ -517,20 +517,20 @@ export default function MatchDisplay({
               </div>
 
               {/* Botões de Ação */}
-              <div className="flex items-center justify-center gap-4 mt-6">
+              <div className="flex items-center justify-center gap-3 sm:gap-4 mt-5 sm:mt-6">
                 <button
                   onClick={handleReject}
-                  className="size-16 rounded-full border-4 border-[#ff6b6b] bg-white flex items-center justify-center hover:bg-[#fff5f5] transition-all hover:scale-110 active:scale-95"
+                  className="size-14 sm:size-16 rounded-full border-4 border-[#ff6b6b] bg-white flex items-center justify-center hover:bg-[#fff5f5] transition-all hover:scale-110 active:scale-95"
                   aria-label="Rejeitar perfil"
                 >
-                  <X className="size-8 text-[#ff6b6b]" />
+                  <X className="size-7 sm:size-8 text-[#ff6b6b]" />
                 </button>
                 <button
                   onClick={handleLike}
-                  className="size-20 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
+                  className="size-16 sm:size-20 rounded-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] flex items-center justify-center hover:shadow-2xl transition-all hover:scale-110 active:scale-95"
                   aria-label="Curtir perfil"
                 >
-                  <Heart className="size-10 text-white fill-white" />
+                  <Heart className="size-8 sm:size-10 text-white fill-white" />
                 </button>
               </div>
 

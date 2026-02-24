@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react';
 import { getMe, logoutUser } from '../services/auth';
 import { listPets } from '../services/pets';
 import { getUnreadMessagesCount } from '../services/matches';
-import { Menu, X, Home, Heart, MessageCircle, User } from 'lucide-react';
+import { Home, Heart, MessageCircle, User } from 'lucide-react';
 
 export default function Header() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [open, setOpen] = useState(false);
   const [hasPet, setHasPet] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -78,7 +77,7 @@ export default function Header() {
 
   return (
       <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           {/* Logo */}
           <Link href={user ? '/match-display' : '/'} className="flex items-center gap-1">
             <img 
@@ -92,7 +91,7 @@ export default function Header() {
               }}
             />
 
-            <h1 className="text-2xl font-bold text-[#ffa98f]">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#ffa98f]">
               PetFind
             </h1>
           </Link>
@@ -149,6 +148,56 @@ export default function Header() {
               aria-label="Perfil"
             >
               <User className={`w-6 h-6 ${isProfile ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+            </button>
+          </div>
+
+          <div className="md:hidden flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => router.push(user ? '/match-display' : '/')}
+              aria-label={user ? 'Match' : 'Início'}
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                user
+                  ? isMatches
+                    ? 'bg-[rgba(255,169,143,0.13)]'
+                    : 'hover:bg-gray-50'
+                  : isHome
+                    ? 'bg-[rgba(255,169,143,0.13)]'
+                    : 'hover:bg-gray-50'
+              }`}
+            >
+              {user ? (
+                <Heart className={`w-5 h-5 ${isMatches ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              ) : (
+                <Home className={`w-5 h-5 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleChatClick}
+              aria-label="Chat"
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors relative ${
+                isChat ? 'bg-[rgba(255,169,143,0.13)]' : 'hover:bg-gray-50'
+              }`}
+            >
+              <MessageCircle className={`w-5 h-5 ${isChat ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              {unreadCount > 0 && !isChat && (
+                <span className="absolute top-0.5 right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-4 h-4 px-1 flex items-center justify-center">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleProfileClick}
+              aria-label="Perfil"
+              className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+                isProfile ? 'bg-[rgba(255,169,143,0.13)]' : 'hover:bg-gray-50'
+              }`}
+            >
+              <User className={`w-5 h-5 ${isProfile ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
             </button>
           </div>
         </div>

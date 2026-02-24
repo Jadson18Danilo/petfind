@@ -22,10 +22,35 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/pet-register": [
+    "/chat-on": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/pet-register.js"
+      "static/chunks/pages/chat-on.js"
+    ],
+    "/settings/match": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/settings/match.js"
+    ],
+    "/settings/notifications": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/settings/notifications.js"
+    ],
+    "/settings/privacy": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/settings/privacy.js"
+    ],
+    "/settings/support": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/settings/support.js"
+    ],
+    "/tutor-edit": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/tutor-edit.js"
     ],
     "/tutor-profile": [
       "static/chunks/webpack.js",

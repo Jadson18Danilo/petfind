@@ -201,14 +201,14 @@ export default function PetRegister({
                 Fotos do Pet
               </h3>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 {/* Foto Principal */}
                 <div className="lg:col-span-1">
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-3">
                     Foto Principal
                   </label>
                   <div className="relative group">
-                    <div className="w-full aspect-square bg-[#FFF7F1]/80 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/60">
+                    <div className="w-full aspect-4/5 sm:aspect-square bg-[#FFF7F1]/80 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/60">
                       {mainPhoto ? (
                         <img
                           src={mainPhoto}
@@ -252,10 +252,10 @@ export default function PetRegister({
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-3">
                     Galeria (até 4 fotos)
                   </label>
-                  <div className="grid grid-cols-4 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {additionalPhotos.map((photo, index) => (
                       <div key={index} className="relative group">
-                        <div className="w-full aspect-square bg-[#FFF7F1]/75 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/45 hover:border-[#FFA98F]/75 transition-colors">
+                        <div className="w-full aspect-square bg-[#FFF7F1]/75 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/45 hover:border-[#FFA98F]/75 transition-colors">
                           {photo ? (
                             <img
                               src={photo}
