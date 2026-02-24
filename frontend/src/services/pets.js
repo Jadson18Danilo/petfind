@@ -1,4 +1,5 @@
 import api from './api';
+import { resolveMediaList, resolveMediaUrl } from './media';
 
 function normalizePet(pet) {
   if (!pet) return pet;
@@ -7,7 +8,11 @@ function normalizePet(pet) {
   const age = pet.age ?? pet.ageMonths ?? pet.idade ?? '';
   const description = pet.description ?? pet.bio ?? pet.biografia ?? '';
   const location = pet.location ?? [pet.city, pet.state].filter(Boolean).join(', ');
-  const mainPhoto = pet.mainPhoto ?? pet.image ?? pet.imageUrl ?? '';
+  const mainPhotoRaw = pet.mainPhoto ?? pet.image ?? pet.imageUrl ?? '';
+  const mainPhoto = resolveMediaUrl(mainPhotoRaw);
+  const image = resolveMediaUrl(pet.image ?? '');
+  const imageUrl = resolveMediaUrl(pet.imageUrl ?? '');
+  const additionalPhotos = resolveMediaList(pet.additionalPhotos);
 
   return {
     ...pet,
@@ -16,6 +21,9 @@ function normalizePet(pet) {
     description,
     location,
     mainPhoto,
+    image,
+    imageUrl,
+    additionalPhotos,
   };
 }
 

@@ -2,7 +2,12 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/settings/support": "pages/settings/support.js",
   "/": "pages/index.js",
-  "/tutor-profile": "pages/tutor-profile.js"
+  "/login-off": "pages/login-off.js",
+  "/match-display": "pages/match-display.js",
+  "/chat-off": "pages/chat-off.js",
+  "/tutor-profile": "pages/tutor-profile.js",
+  "/tutor-edit": "pages/tutor-edit.js",
+  "/pet-register": "pages/pet-register.js",
+  "/login": "pages/login.js"
 }

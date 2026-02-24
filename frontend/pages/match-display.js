@@ -3,9 +3,9 @@ import { Heart, MessageCircle, User, MapPin, X, Sparkles } from 'lucide-react';
 import { likePet } from '../src/services/matches';
 import { listPets } from '../src/services/pets';
 import { getMe } from '../src/services/auth';
+import { resolveMediaUrl } from '../src/services/media';
 import { useRouter } from 'next/router';
 import Layout from '../src/components/Layout';
-import Image from 'next/image';
 
 const IMAGE_DURATION_MS = 10000;
 const MATCH_PREFS_KEY = 'matchPreferences';
@@ -36,9 +36,12 @@ export default function MatchDisplay({
   const currentProfile = pets[currentIndex];
   const currentProfileImages = currentProfile ? getProfileImageUrls(currentProfile) : [];
   const currentImageUrl = currentProfileImages[currentImageIndex] || '';
+  const currentMatchImageUrl = currentMatch ? getImageUrl(currentMatch) : '';
   const hasMoreProfiles = currentIndex < pets.length - 1;
   const noProfiles = !loading && !error && pets.length === 0;
   const activePetId = selectedPet?.id ?? currentPetId;
+  const [cardImageFailed, setCardImageFailed] = useState(false);
+  const [matchImageFailed, setMatchImageFailed] = useState(false);
 
   function normalizeText(value) {
     if (!value) return '';
@@ -80,12 +83,15 @@ export default function MatchDisplay({
         if (!mounted) return;
 
         const allPets = Array.isArray(data) ? data : [];
+        const myUserId = meData?.id != null ? Number(meData.id) : null;
         const savedPrefs = typeof window !== 'undefined'
           ? JSON.parse(window.localStorage.getItem(MATCH_PREFS_KEY) || '{}')
           : {};
 
-        const ownedPets = meData ? allPets.filter((pet) => pet.ownerId === meData.id) : [];
-        const ownedPetIds = new Set(ownedPets.map((pet) => pet.id));
+        const ownedPets = myUserId != null
+          ? allPets.filter((pet) => Number(pet.ownerId) === myUserId)
+          : [];
+        const ownedPetIds = new Set(ownedPets.map((pet) => Number(pet.id)));
         const storedId = typeof window !== 'undefined'
           ? Number(window.localStorage.getItem('activePetId'))
           : null;
@@ -104,17 +110,37 @@ export default function MatchDisplay({
         setSelectedPet(activePet || null);
 
         if (!activePet) {
-          setPets([]);
-          setSelectionIssue('Selecione um pet no perfil para ver os matches.');
+          const publicCandidates = allPets.filter((pet) => {
+            if (myUserId != null && Number(pet.ownerId) === myUserId) return false;
+            return true;
+          });
+
+          setPets(publicCandidates);
+          setSelectionIssue(
+            publicCandidates.length > 0
+              ? 'Não foi possível identificar o pet ativo. Exibindo perfis disponíveis.'
+              : 'Selecione um pet no perfil para ver os matches.'
+          );
           return;
         }
 
         const species = normalizeText(activePet.species || activePet.especie);
         const opposite = getOppositeSex(activePet.sex || activePet.sexo);
 
+        const fallbackCandidates = allPets.filter((pet) => {
+          if (ownedPetIds.has(Number(pet.id))) return false;
+          if (myUserId != null && Number(pet.ownerId) === myUserId) return false;
+          if (activePet?.id && Number(pet.id) === Number(activePet.id)) return false;
+          return true;
+        });
+
         if (!species || !opposite) {
-          setPets([]);
-          setSelectionIssue('Complete a espécie e o sexo do pet selecionado.');
+          setPets(fallbackCandidates);
+          setSelectionIssue(
+            fallbackCandidates.length > 0
+              ? 'Complete a espécie e o sexo do pet selecionado para melhorar os resultados. Exibindo perfis disponíveis.'
+              : 'Complete a espécie e o sexo do pet selecionado.'
+          );
           return;
         }
 
@@ -123,9 +149,9 @@ export default function MatchDisplay({
         const preferredAgeRange = normalizeText(savedPrefs?.ageRange || 'todos');
 
         const filtered = allPets.filter((pet) => {
-          if (ownedPetIds.has(pet.id)) return false;
-          if (meData?.id && pet.ownerId === meData.id) return false;
-          if (activePet?.id && pet.id === activePet.id) return false;
+          if (ownedPetIds.has(Number(pet.id))) return false;
+          if (myUserId != null && Number(pet.ownerId) === myUserId) return false;
+          if (activePet?.id && Number(pet.id) === Number(activePet.id)) return false;
 
           const petSpecies = normalizeText(pet.species || pet.especie);
           const petSex = normalizeText(pet.sex || pet.sexo);
@@ -147,9 +173,16 @@ export default function MatchDisplay({
           return speciesMatchesPreference && sexMatchesPreference && ageMatchesPreference;
         });
 
-        setPets(filtered);
+        if (filtered.length > 0) {
+          setPets(filtered);
+          return;
+        }
 
-        if (filtered.length === 0) {
+        setPets(fallbackCandidates);
+
+        if (fallbackCandidates.length > 0) {
+          setSelectionIssue('Nenhum perfil encontrado com os filtros atuais. Exibindo perfis disponíveis.');
+        } else {
           setSelectionIssue('Nenhum perfil encontrado com os filtros atuais. Ajuste em Configurações > Preferências de Match.');
         }
       } catch (err) {
@@ -166,12 +199,7 @@ export default function MatchDisplay({
   }, []);
 
   function toAbsoluteUrl(url) {
-    if (!url || typeof url !== 'string') return '';
-    if (url.startsWith('/')) {
-      const base = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
-      return `${base.replace(/\/$/, '')}${url}`;
-    }
-    return url;
+    return resolveMediaUrl(url) || '';
   }
 
   function getProfileImageUrls(profile) {
@@ -245,7 +273,16 @@ export default function MatchDisplay({
     setCurrentImageIndex(0);
     setImageProgress(0);
     setIsImagePaused(false);
+    setCardImageFailed(false);
   }, [currentIndex]);
+
+  useEffect(() => {
+    setCardImageFailed(false);
+  }, [currentImageUrl]);
+
+  useEffect(() => {
+    setMatchImageFailed(false);
+  }, [currentMatchImageUrl]);
 
   useEffect(() => {
     if (!currentProfile || !currentProfileImages.length || isImagePaused) return;
@@ -446,14 +483,13 @@ export default function MatchDisplay({
                     aria-label="Segure para pausar"
                   />
 
-                  {currentImageUrl ? (
-                    <Image
+                  {currentImageUrl && !cardImageFailed ? (
+                    <img
                       src={currentImageUrl}
                       alt={currentProfile.name || 'Pet'}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 400px"
-                      className="object-cover"
-                      priority={currentIndex === 0}
+                      className="w-full h-full object-cover"
+                      loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                      onError={() => setCardImageFailed(true)}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400">
@@ -601,13 +637,13 @@ export default function MatchDisplay({
 
             <div className="flex items-center justify-center gap-4 mb-6">
               <div className="size-20 rounded-full overflow-hidden border-4 border-white shadow-lg bg-slate-100">
-                {getImageUrl(currentMatch) ? (
-                  <Image
-                    src={getImageUrl(currentMatch)}
+                {currentMatchImageUrl && !matchImageFailed ? (
+                  <img
+                    src={currentMatchImageUrl}
                     alt={currentMatch.name || 'Pet'}
-                    width={80}
-                    height={80}
                     className="w-full h-full object-cover"
+                    loading="lazy"
+                    onError={() => setMatchImageFailed(true)}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-400">

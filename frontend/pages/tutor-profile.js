@@ -10,7 +10,7 @@ import {
 import Layout from "../src/components/Layout";
 import { useRouter } from "next/router";
 import { getMe, logoutUser } from "../src/services/auth";
-import { listPets } from "../src/services/pets";
+import { deletePet, listPets } from "../src/services/pets";
 import { showToast } from "../src/services/toast";
 
 export default function PerfilTutor({
@@ -161,9 +161,37 @@ export default function PerfilTutor({
           description: "Essa ação não pode ser desfeita. Deseja continuar?",
           confirmText: "Excluir",
           confirmStyle: "btn-secondary bg-red-50 text-red-600 border-red-200",
-          onConfirm: () => {
+          onConfirm: async () => {
+            const petId = confirmAction.petId;
             closeConfirmModal();
-            showToast("Exclusão de pet será ativada quando o backend de delete estiver disponível.", "info");
+
+            try {
+              await deletePet(petId);
+
+              setPets((previousPets) => {
+                const nextPets = previousPets.filter((pet) => pet.id !== petId);
+
+                if (selectedPetId === petId) {
+                  const nextSelected = nextPets[0]?.id ?? null;
+                  setSelectedPetId(nextSelected);
+
+                  if (typeof window !== "undefined") {
+                    if (nextSelected) {
+                      window.localStorage.setItem("activePetId", String(nextSelected));
+                    } else {
+                      window.localStorage.removeItem("activePetId");
+                    }
+                  }
+                }
+
+                return nextPets;
+              });
+
+              showToast("Pet excluído com sucesso.", "success");
+            } catch (error) {
+              const message = error?.response?.data?.error || "Não foi possível excluir o pet.";
+              showToast(message, "error");
+            }
           },
         }
     : null;
@@ -393,6 +421,7 @@ export default function PerfilTutor({
                           Ver Matches
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleEditarPet(pet.id)}
                           aria-label={`Editar pet ${pet.nome}`}
                           className="btn-icon border-[#F2D4C8] text-[#ff8566] hover:bg-[#FFF7F1]"
@@ -400,6 +429,7 @@ export default function PerfilTutor({
                           <Edit className="size-4" />
                         </button>
                         <button
+                          type="button"
                           onClick={() => handleExcluirPet(pet.id)}
                           aria-label={`Excluir pet ${pet.nome}`}
                           className="btn-danger-icon border-[#F2D4C8] text-[#ff8566] hover:bg-[#FFF7F1]"

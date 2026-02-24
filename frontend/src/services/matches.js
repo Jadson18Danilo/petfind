@@ -1,4 +1,5 @@
 import api from './api';
+import { resolveMediaList, resolveMediaUrl } from './media';
 
 export async function likePet(toPetId, fromPetId) {
   const response = await api.post(`/api/pets/${toPetId}/like`, { fromPetId }, { withCredentials: true });
@@ -7,7 +8,16 @@ export async function likePet(toPetId, fromPetId) {
 
 export async function listMatches() {
   const response = await api.get('/api/matches', { withCredentials: true });
-  return response.data;
+  const data = response.data;
+  if (!Array.isArray(data)) return [];
+
+  return data.map((match) => ({
+    ...match,
+    image: resolveMediaUrl(match?.image),
+    imageUrl: resolveMediaUrl(match?.imageUrl),
+    mainPhoto: resolveMediaUrl(match?.mainPhoto),
+    additionalPhotos: resolveMediaList(match?.additionalPhotos),
+  }));
 }
 
 export async function listMessages(matchId) {

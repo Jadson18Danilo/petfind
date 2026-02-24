@@ -1,4 +1,5 @@
 import api from './api';
+import { resolveMediaUrl } from './media';
 
 export async function registerUser(payload) {
   const response = await api.post('/api/auth/register', payload, { withCredentials: true });
@@ -20,7 +21,15 @@ export async function getMe() {
     withCredentials: true,
     skipAuthRedirect: true,
   });
-  return response.data;
+  const me = response.data;
+  if (me && typeof me === 'object') {
+    return {
+      ...me,
+      avatar: resolveMediaUrl(me.avatar),
+      foto: resolveMediaUrl(me.foto),
+    };
+  }
+  return me;
 }
 
 export async function updateMe(payload) {
@@ -30,5 +39,13 @@ export async function updateMe(payload) {
     withCredentials: true,
     headers: isForm ? { 'Content-Type': 'multipart/form-data' } : undefined,
   });
-  return response.data;
+  const me = response.data;
+  if (me && typeof me === 'object') {
+    return {
+      ...me,
+      avatar: resolveMediaUrl(me.avatar),
+      foto: resolveMediaUrl(me.foto),
+    };
+  }
+  return me;
 }

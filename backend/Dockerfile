@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --include=dev --no-audit --no-fund
 
 # Copy application files
 COPY . .
@@ -16,8 +16,10 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p public/uploads
 
+ENV NODE_ENV=production
+
 # Expose port
 EXPOSE 4000
 
-# Start command (migrations run via docker-compose volume binding)
+# Start command (migrations run via docker-compose)
 CMD ["npm", "start"]

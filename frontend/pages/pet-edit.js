@@ -3,7 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Layout from '../src/components/Layout';
 import { Heart, MessageCircle, User, Plus, X } from 'lucide-react';
 import { useRouter } from 'next/router';
-import { listPets } from '../src/services/pets';
+import { listPets, updatePet } from '../src/services/pets';
+import { showToast } from '../src/services/toast';
 
 export default function PetEdit({ petData: initialPetData = null }) {
   const router = useRouter();
@@ -62,6 +63,32 @@ export default function PetEdit({ petData: initialPetData = null }) {
   });
 
   const [registroMedicoFile, setRegistroMedicoFile] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (!petData) return;
+
+    const nextMainPhoto = petData.mainPhoto || petData.image || petData.imageUrl || null;
+    const nextAdditionalPhotos = Array.isArray(petData.additionalPhotos)
+      ? [...petData.additionalPhotos, ...Array(4 - petData.additionalPhotos.length).fill(null)].slice(0, 4)
+      : [null, null, null, null];
+
+    setMainPhoto(nextMainPhoto);
+    setAdditionalPhotos(nextAdditionalPhotos);
+
+    setFormData({
+      nome: petData.nome ?? petData.name ?? '',
+      especie: petData.especie ?? petData.species ?? 'cachorro',
+      idade: String(petData.idade ?? petData.age ?? petData.ageMonths ?? ''),
+      sexo: petData.sexo ?? petData.sex ?? 'macho',
+      raca: petData.raca ?? petData.breed ?? '',
+      objetivo: petData.objetivo || 'encontros',
+      breedingEnabled: Boolean(petData.breedingEnabled),
+      pedigree: petData.pedigree || '',
+      registroMedico: petData.registroMedico || '',
+      biografia: petData.biografia ?? petData.description ?? petData.bio ?? '',
+    });
+  }, [petData]);
 
   const handleMainPhotoChange = (e) => {
     const file = e.target.files?.[0];
@@ -114,17 +141,33 @@ export default function PetEdit({ petData: initialPetData = null }) {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now, just log – later we will send to backend
+    if (!petId || isSaving) return;
+
+    setIsSaving(true);
+
     const payload = {
-      ...formData,
-      mainPhoto: mainPhoto || '',
+      name: formData.nome || '',
+      species: formData.especie || '',
+      ageMonths: formData.idade === '' ? null : Number(formData.idade),
+      sex: formData.sexo || null,
+      breed: formData.raca || null,
+      description: formData.biografia || null,
+      mainPhoto: mainPhoto || null,
       additionalPhotos: additionalPhotos.filter(Boolean),
     };
-    console.log('Salvar pet:', payload, { registroMedicoFile });
-    // simple feedback, then navigate back
-    router.push('/pet-details');
+
+    try {
+      await updatePet(petId, payload);
+      showToast('Informações do pet salvas com sucesso.', 'success');
+      router.push('/tutor-profile');
+    } catch (err) {
+      console.error('Erro ao salvar pet', err);
+      showToast(err?.response?.data?.error || 'Falha ao salvar informações do pet.', 'error');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleVoltar = () => {
@@ -276,7 +319,9 @@ export default function PetEdit({ petData: initialPetData = null }) {
 
           <div className="flex justify-end gap-3">
             <button type="button" onClick={handleVoltar} className="btn-secondary">Voltar</button>
-            <button type="submit" className="btn">Salvar</button>
+            <button type="submit" className="btn" disabled={isSaving} aria-busy={isSaving}>
+              {isSaving ? 'Salvando...' : 'Salvar'}
+            </button>
           </div>
         </form>
           </>

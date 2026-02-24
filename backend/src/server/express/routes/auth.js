@@ -30,6 +30,10 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
+    if (!user.passwordHash) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
     const isValid = await bcrypt.compare(data.password, user.passwordHash);
     if (!isValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
@@ -44,6 +48,12 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     if (err.name === 'ZodError') {
       return res.status(400).json({ error: 'Invalid input', details: err.errors });
+    }
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      return res.status(409).json({ error: 'Email already exists' });
+    }
+    if (err.name === 'SequelizeValidationError' || err.name === 'SequelizeDatabaseError') {
+      return res.status(400).json({ error: 'Invalid data' });
     }
     console.error(err);
     return res.status(500).json({ error: 'Server error' });

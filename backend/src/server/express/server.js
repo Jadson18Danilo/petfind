@@ -29,7 +29,24 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Server error' });
 });
 
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Express API listening on http://localhost:${port}`);
-});
+const initialPort = Number(process.env.PORT || 4000);
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+function startServer(port) {
+  const server = app.listen(port, () => {
+    console.log(`Express API listening on http://localhost:${port}`);
+  });
+
+  server.on('error', (error) => {
+    if (error && error.code === 'EADDRINUSE' && isDevelopment) {
+      const nextPort = Number(port) + 1;
+      console.warn(`Porta ${port} em uso. Tentando ${nextPort}...`);
+      startServer(nextPort);
+      return;
+    }
+
+    throw error;
+  });
+}
+
+startServer(initialPort);

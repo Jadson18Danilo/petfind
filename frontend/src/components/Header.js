@@ -2,14 +2,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getMe, logoutUser } from '../services/auth';
-import { listPets } from '../services/pets';
 import { getUnreadMessagesCount } from '../services/matches';
 import { Home, Heart, MessageCircle, User } from 'lucide-react';
 
 export default function Header() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [hasPet, setHasPet] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
   const path = router.pathname;
@@ -21,16 +19,11 @@ export default function Header() {
   useEffect(() => {
     let mounted = true;
 
-    async function loadUserAndPets() {
+    async function loadUserData() {
       try {
         const data = await getMe();
         if (!mounted) return;
         setUser(data);
-
-        const pets = await listPets();
-        if (!mounted) return;
-        const ownsPet = Array.isArray(pets) && pets.some((pet) => pet.ownerId === data?.id);
-        setHasPet(ownsPet);
 
         // Load unread messages count
         const count = await getUnreadMessagesCount();
@@ -39,11 +32,10 @@ export default function Header() {
       } catch (err) {
         if (!mounted) return;
         setUser(null);
-        setHasPet(false);
       }
     }
 
-    loadUserAndPets();
+    loadUserData();
 
     return () => {
       mounted = false;
@@ -64,7 +56,6 @@ export default function Header() {
   async function handleLogout() {
     await logoutUser();
     setUser(null);
-    setHasPet(false);
   }
 
   function handleChatClick() {
@@ -73,6 +64,13 @@ export default function Header() {
 
   function handleProfileClick() {
     router.push(user ? '/tutor-profile' : '/login-off');
+  }
+
+  const showMatchButton = Boolean(user);
+  const isPrimaryActive = showMatchButton ? isMatches : isHome;
+
+  function handlePrimaryClick() {
+    router.push(showMatchButton ? '/match-display' : '/');
   }
 
   return (
@@ -98,32 +96,20 @@ export default function Header() {
 
           {/* Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            {user ? (
-              <button
-                type="button"
-                onClick={() => {
-                  if (hasPet) router.push('/match-display');
-                }}
-                disabled={!hasPet}
-                aria-disabled={!hasPet}
-                aria-label="Match"
-                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                  isMatches ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
-                } ${!hasPet ? 'opacity-50 cursor-not-allowed hover:bg-transparent' : ''}`}
-              >
-                <Heart className={`w-6 h-6 ${isMatches ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
-              </button>
-            ) : (
-              <Link
-                href="/"
-                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                  isHome ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
-                }`}
-                aria-label="Início"
-              >
-                <Home className={`w-6 h-6 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
-              </Link>
-            )}
+            <button
+              type="button"
+              onClick={handlePrimaryClick}
+              aria-label={showMatchButton ? 'Match' : 'Início'}
+              className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                isPrimaryActive ? 'bg-[rgba(255,169,143,0.13)] hover:bg-[rgba(255,169,143,0.2)]' : 'hover:bg-gray-50'
+              }`}
+            >
+              {showMatchButton ? (
+                <Heart className={`w-6 h-6 ${isPrimaryActive ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              ) : (
+                <Home className={`w-6 h-6 ${isPrimaryActive ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              )}
+            </button>
             <button
               type="button"
               onClick={handleChatClick}
@@ -154,22 +140,16 @@ export default function Header() {
           <div className="md:hidden flex items-center gap-1.5">
             <button
               type="button"
-              onClick={() => router.push(user ? '/match-display' : '/')}
-              aria-label={user ? 'Match' : 'Início'}
+              onClick={handlePrimaryClick}
+              aria-label={showMatchButton ? 'Match' : 'Início'}
               className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
-                user
-                  ? isMatches
-                    ? 'bg-[rgba(255,169,143,0.13)]'
-                    : 'hover:bg-gray-50'
-                  : isHome
-                    ? 'bg-[rgba(255,169,143,0.13)]'
-                    : 'hover:bg-gray-50'
+                isPrimaryActive ? 'bg-[rgba(255,169,143,0.13)]' : 'hover:bg-gray-50'
               }`}
             >
-              {user ? (
-                <Heart className={`w-5 h-5 ${isMatches ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+              {showMatchButton ? (
+                <Heart className={`w-5 h-5 ${isPrimaryActive ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
               ) : (
-                <Home className={`w-5 h-5 ${isHome ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
+                <Home className={`w-5 h-5 ${isPrimaryActive ? 'text-[#FFA98F]' : 'text-[#4A5565]'}`} />
               )}
             </button>
 
