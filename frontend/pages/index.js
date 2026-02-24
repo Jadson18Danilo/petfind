@@ -120,7 +120,7 @@ export default function Home() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {/* Feature 1 */}
           <div
-            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#FFA98F] bg-white transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.05}px)`,
               transition: 'transform 0.1s ease-out'
@@ -149,7 +149,7 @@ export default function Home() {
 
           {/* Feature 2 */}
           <div
-            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#FFA98F] bg-white transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.08}px)`,
               transition: 'transform 0.1s ease-out'
@@ -178,7 +178,7 @@ export default function Home() {
 
           {/* Feature 3 */}
           <div
-            className="group rounded-2xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm"
+            className="group overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#FFA98F] bg-white transition-all duration-300 cursor-pointer shadow-sm"
             style={{
               transform: `translateY(${-scrollY * 0.06}px)`,
               transition: 'transform 0.1s ease-out'
@@ -207,7 +207,7 @@ export default function Home() {
         </section>
 
         {/* How It Works Section */}
-        <section className="group rounded-3xl p-0.5 bg-white hover:bg-linear-to-r hover:from-[#FFA98F] hover:to-[#FF8566] transition-all duration-300 cursor-pointer shadow-sm">
+        <section className="group overflow-hidden rounded-3xl border-2 border-transparent hover:border-[#FFA98F] bg-white transition-all duration-300 cursor-pointer shadow-sm">
           <div className="bg-white rounded-[22px] p-8 md:p-12 h-full group-hover:scale-[1.02] transition-transform duration-300">
             <h2 className="text-3xl sm:text-4xl font-bold text-[#0a0a0a] text-center mb-10 sm:mb-16">Como Funciona</h2>
 
