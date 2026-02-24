@@ -22,20 +22,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/chat-off": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/chat-off.js"
-    ],
     "/pet-register": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/pet-register.js"
-    ],
-    "/tutor-edit": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/tutor-edit.js"
     ],
     "/tutor-profile": [
       "static/chunks/webpack.js",

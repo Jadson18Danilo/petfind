@@ -4,6 +4,5 @@
   "/_document": "pages/_document.js",
   "/tutor-profile": "pages/tutor-profile.js",
   "/pet-register": "pages/pet-register.js",
-  "/chat-off": "pages/chat-off.js",
   "/tutor-edit": "pages/tutor-edit.js"
 }
