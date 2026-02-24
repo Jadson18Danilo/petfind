@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Edit, LogOut, Plus, Trash2 } from "lucide-react";
+import {
+  ChevronRight,
+  Edit,
+  LogOut,
+  Plus,
+  Settings,
+  Trash2,
+} from "lucide-react";
 import Layout from "../src/components/Layout";
 import { useRouter } from "next/router";
 import { getMe } from "../src/services/auth";
@@ -142,6 +149,50 @@ export default function PerfilTutor({
   const handleCadastrarPet = () => {
     router.push("/pet-register");
   };
+
+  const handleOpenSetting = (settingKey) => {
+    if (settingKey === "match") {
+      router.push("/settings/match");
+      return;
+    }
+
+    if (settingKey === "notifications") {
+      router.push("/settings/notifications");
+      return;
+    }
+
+    if (settingKey === "privacy") {
+      router.push("/settings/privacy");
+      return;
+    }
+
+    if (settingKey === "support") {
+      router.push("/settings/support");
+    }
+  };
+
+  const settingsItems = [
+    {
+      key: "match",
+      label: "Preferências de Match",
+      description: "Ajuste tipo de pet e critérios de conexão.",
+    },
+    {
+      key: "notifications",
+      label: "Notificações",
+      description: "Controle alertas de mensagens, likes e matches.",
+    },
+    {
+      key: "privacy",
+      label: "Privacidade",
+      description: "Gerencie visibilidade de informações do perfil.",
+    },
+    {
+      key: "support",
+      label: "Ajuda e Suporte",
+      description: "Fale com o suporte do PetFind quando precisar.",
+    },
+  ];
 
   return (
     <Layout>
@@ -339,6 +390,39 @@ export default function PerfilTutor({
                 ))}
               </div>
             )}
+          </section>
+
+          <section className="bg-white rounded-3xl shadow-[0_12px_35px_rgba(15,23,42,0.08)] border border-[#F4E4DA] p-6 sm:p-8 mt-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#0a0a0a] mb-5">
+              Configurações
+            </h3>
+
+            <div className="space-y-2">
+              {settingsItems.map((item) => (
+                <button
+                  key={item.key}
+                  type="button"
+                  onClick={() => handleOpenSetting(item.key)}
+                  className="w-full flex items-center justify-between gap-3 rounded-2xl border border-transparent bg-white p-4 hover:bg-[#FFF9F5] hover:border-[#F2D4C8]"
+                >
+                  <div className="flex items-start gap-3 text-left">
+                    <div className="mt-0.5 inline-flex items-center justify-center size-9 rounded-xl bg-[#FFF1E8] text-[#ff8566]">
+                      <Settings className="size-5" />
+                    </div>
+                    <div>
+                      <p className="text-base sm:text-lg font-semibold text-[#0a0a0a]">
+                        {item.label}
+                      </p>
+                      <p className="text-xs sm:text-sm text-[#4a5565] mt-0.5">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ChevronRight className="size-5 text-[#4a5565] shrink-0" />
+                </button>
+              ))}
+            </div>
           </section>
 
           <button

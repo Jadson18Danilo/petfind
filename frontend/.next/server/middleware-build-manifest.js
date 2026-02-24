@@ -9,6 +9,11 @@ self.__BUILD_MANIFEST = {
   "lowPriorityFiles": [],
   "rootMainFiles": [],
   "pages": {
+    "/": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/index.js"
+    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -19,15 +24,30 @@ self.__BUILD_MANIFEST = {
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/tutor-edit": [
+    "/chat-off": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/tutor-edit.js"
+      "static/chunks/pages/chat-off.js"
     ],
-    "/tutor-profile": [
+    "/chat-on": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/tutor-profile.js"
+      "static/chunks/pages/chat-on.js"
+    ],
+    "/login-off": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/login-off.js"
+    ],
+    "/pet-register": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/pet-register.js"
+    ],
+    "/register": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/register.js"
     ]
   },
   "ampFirstPages": []

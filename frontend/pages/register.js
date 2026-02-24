@@ -58,10 +58,10 @@ export default function Register() {
         <div className="space-y-8">
           <button
             onClick={onNavigateToHome}
-            className="btn-secondary px-4 py-3"
+            className="btn-text px-2 py-1 text-[#0a0a0a] hover:bg-transparent"
           >
-            <ArrowLeft className="size-5" />
-            <span className="text-xl">Voltar</span>
+            <ArrowLeft className="size-4" />
+            <span className="text-sm">Voltar</span>
           </button>
 
           <div>

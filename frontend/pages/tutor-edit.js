@@ -211,11 +211,11 @@ export default function TutorEdit({ tutorData = null, onSalvar, onNavigateToMatc
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex justify-end gap-4">
-                <button type="button" onClick={() => onNavigateToPerfil?.() || router.back()} className="btn-secondary px-8 py-3 rounded-2xl">Cancelar</button>
-                <button type="submit" className="btn px-8 py-3 rounded-2xl">Salvar Alterações</button>
+                <div className="flex justify-end gap-4 mt-8">
+                  <button type="button" onClick={() => onNavigateToPerfil?.() || router.back()} className="btn-secondary border-transparent px-8 py-3 rounded-2xl">Cancelar</button>
+                  <button type="submit" className="btn px-8 py-3 rounded-2xl">Salvar Alterações</button>
+                </div>
               </div>
             </form>
           </div>

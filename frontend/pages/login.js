@@ -48,10 +48,10 @@ export default function Login() {
         <div className="max-w-sm mx-auto space-y-6">
           <button
             onClick={() => router.push("/")}
-            className="btn-secondary px-4 py-3"
+            className="btn-text px-2 py-1 text-[#0a0a0a] hover:bg-transparent"
           >
-            <ArrowLeft className="w-5 h-5 text-[#0a0a0a]" />
-            <span className="text-xl text-[#0a0a0a]">Voltar</span>
+            <ArrowLeft className="w-4 h-4 text-[#0a0a0a]" />
+            <span className="text-sm text-[#0a0a0a]">Voltar</span>
           </button>
 
           <div>
