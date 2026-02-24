@@ -32,11 +32,11 @@ export default function PerfilOff({
                   <defs>
                     <linearGradient id="paint0_user_lo" x1="0" x2="1">
                       <stop offset="0%" stopColor="#FFA98F" />
-                      <stop offset="100%" stopColor="#FF8566" />
+                      <stop offset="100%" stopColor="#FFA98F" />
                     </linearGradient>
                     <linearGradient id="paint1_user_lo" x1="0" x2="1">
                       <stop offset="0%" stopColor="#FFA98F" />
-                      <stop offset="100%" stopColor="#FF8566" />
+                      <stop offset="100%" stopColor="#FFA98F" />
                     </linearGradient>
                   </defs>
                   <g>

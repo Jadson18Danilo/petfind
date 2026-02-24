@@ -134,7 +134,7 @@ export default function Home() {
                     <defs>
                       <linearGradient id="gradientStroke" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#FFA98F" />
-                        <stop offset="100%" stopColor="#FF8566" />
+                        <stop offset="100%" stopColor="#FFA98F" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -163,7 +163,7 @@ export default function Home() {
                     <defs>
                       <linearGradient id="gradientStroke2" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#FFA98F" />
-                        <stop offset="100%" stopColor="#FF8566" />
+                        <stop offset="100%" stopColor="#FFA98F" />
                       </linearGradient>
                     </defs>
                   </svg>
@@ -192,7 +192,7 @@ export default function Home() {
                     <defs>
                       <linearGradient id="gradientStroke3" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#FFA98F" />
-                        <stop offset="100%" stopColor="#FF8566" />
+                        <stop offset="100%" stopColor="#FFA98F" />
                       </linearGradient>
                     </defs>
                   </svg>

@@ -61,7 +61,8 @@
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl text-white px-4 py-2.5 text-sm font-semibold shadow-sm hover:opacity-95 bg-linear-to-r from-[#ffa98f] to-[#ff8566];
+    @apply inline-flex items-center justify-center gap-2 rounded-xl text-white px-4 py-2.5 text-sm font-semibold shadow-sm hover:opacity-95;
+    background: #FFA98F;
   }
 
   .btn-secondary {
@@ -165,8 +166,27 @@
 .bg-brand-warm-100 { background-color: #fff1e6; }
 .bg-brand-warm-200 { background-color: #ffe6d6; }
 .bg-brand-warm-500 { background-color: #ffa98f; }
-.bg-brand-warm-600 { background-color: #ff8566; }
-.text-brand-warm-600 { color: #ff8566; }
-.bg-gradient-brand { background: linear-gradient(135deg,#ffa98f,#ff8566); }
+.bg-brand-warm-600 { background-color: #FFA98F; }
+.text-brand-warm-600 { color: #FFA98F; }
+.bg-gradient-brand { background: #FFA98F; }
 .from-brand-warm-500 { --tw-gradient-from: #ffa98f; }
-.to-brand-warm-600 { --tw-gradient-to: #ff8566; }
+.to-brand-warm-600 { --tw-gradient-to: #FFA98F; }
+
+/* Global override: disable gradients and use single brand color */
+[class*="bg-linear-to-"],
+[class*="bg-gradient-to-"] {
+  background-image: none !important;
+  background-color: #FFA98F !important;
+}
+
+[class*="hover:bg-linear-to-"]:hover,
+[class*="hover:bg-gradient-to-"]:hover {
+  background-image: none !important;
+  background-color: #FFA98F !important;
+}
+
+[class*="bg-clip-text"][class*="text-transparent"] {
+  background-image: none !important;
+  color: #FFA98F !important;
+  -webkit-text-fill-color: #FFA98F;
+}

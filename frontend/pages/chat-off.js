@@ -20,7 +20,7 @@ export default function ChatOff() {
                   <defs>
                     <linearGradient id="chat_grad" x1="0" x2="1">
                       <stop offset="0%" stopColor="#FFA98F" />
-                      <stop offset="100%" stopColor="#FF8566" />
+                      <stop offset="100%" stopColor="#FFA98F" />
                     </linearGradient>
                   </defs>
                   <rect

@@ -161,7 +161,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                 <div className="lg:col-span-1">
                   <label className="block text-sm font-semibold text-[#0a0a0a] mb-3">Foto Principal</label>
                   <div className="relative group">
-                    <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]">
+                    <div className="w-full aspect-square bg-[#FFF7F1]/80 rounded-2xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/60">
                       {mainPhoto ? (
                         <img src={mainPhoto} className="w-full h-full object-cover" alt="Foto principal do pet" loading="lazy" decoding="async" />
                       ) : (
@@ -198,7 +198,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
                   <div className="grid grid-cols-4 gap-3">
                     {additionalPhotos.map((photo, index) => (
                       <div key={index} className="relative group">
-                        <div className="w-full aspect-square bg-linear-to-br from-[#FFA98F]/10 to-[#FF8566]/10 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/50 hover:border-[#FFA98F] transition-colors">
+                        <div className="w-full aspect-square bg-[#FFF7F1]/75 rounded-xl flex items-center justify-center overflow-hidden border-2 border-dashed border-[#FFA98F]/45 hover:border-[#FFA98F]/75 transition-colors">
                           {photo ? (
                             <img src={photo} alt={`Foto ${index + 1}`} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                           ) : (
@@ -373,7 +373,7 @@ export default function PetRegister({ onPetCadastrado, onNavigateToInicioMatch, 
 
                   {/* Breeding Intent - Aparece apenas quando "Encontros" está selecionado */}
                   {formData.objetivo === 'encontros' && (
-                    <div className="mt-1 p-4 bg-linear-to-r from-[#FFA98F]/20 to-[#FF8566]/10 rounded-lg border-2 border-[#FFA98F]/30">
+                    <div className="mt-1 p-4 bg-[#FFA98F]/12 rounded-lg border-2 border-[#FFA98F]/28">
                       <div className="flex items-start gap-3 mb-4">
                         <div className="size-9 rounded-full bg-white border border-[#F2D4C8] flex items-center justify-center shrink-0">
                           <Heart className="size-5 text-[#ff8566]" />

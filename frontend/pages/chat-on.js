@@ -230,7 +230,7 @@ export default function ChatOn() {
       <div className="min-h-screen page-bg flex flex-col items-center justify-center py-8 px-4">
         <div className="w-full max-w-5xl bg-white rounded-3xl shadow-xl overflow-hidden flex" style={{ minHeight: '75vh', maxHeight: '85vh' }}>
           {/* Conversations List */}
-          <div className="w-80 border-r border-slate-200 bg-linear-to-b from-[#FFF7F1] to-white flex flex-col shrink-0">
+          <div className="w-80 border-r border-slate-200 bg-[#FFF7F1]/70 flex flex-col shrink-0 backdrop-blur-[1px]">
             <div className="px-6 py-6 border-b border-slate-200">
               <h2 className="text-2xl font-bold text-[#0a0a0a]">Conversas</h2>
             </div>
@@ -249,7 +249,7 @@ export default function ChatOn() {
                       {conv.avatar ? (
                         <img src={conv.avatar} alt={conv.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                       ) : (
-                        <div className="w-full h-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold text-xl">
+                        <div className="w-full h-full bg-[#FFA98F]/80 text-white flex items-center justify-center font-semibold text-xl">
                           {conv.type === 'support' ? '🐾' : 'M'}
                         </div>
                       )}
@@ -272,13 +272,13 @@ export default function ChatOn() {
           <div className="flex-1 flex flex-col min-w-0">
             {/* Chat Header */}
             {activeConv && (
-              <div className="px-6 py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-linear-to-r from-[#FFF7F1] to-white">
+              <div className="px-6 py-6 border-b border-slate-200 flex items-center justify-between shrink-0 bg-[#FFF7F1]/70 backdrop-blur-[1px]">
                 <div className="flex items-center gap-4 min-w-0 flex-1">
                   <div className="w-12 h-12 rounded-full bg-slate-100 overflow-hidden shrink-0">
                     {activeConv.avatar ? (
                       <img src={activeConv.avatar} alt={activeConv.name} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="w-full h-full bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white flex items-center justify-center font-semibold">
+                      <div className="w-full h-full bg-[#FFA98F]/80 text-white flex items-center justify-center font-semibold">
                         {activeConv.type === 'support' ? '🐾' : 'M'}
                       </div>
                     )}
@@ -304,7 +304,7 @@ export default function ChatOn() {
                     <div
                       className={`max-w-md px-4 py-3 rounded-2xl ${
                         message.isSent
-                          ? 'bg-linear-to-r from-[#ffa98f] to-[#ff8566] text-white rounded-br-none'
+                            ? 'bg-[#FFA98F]/85 text-white rounded-br-none'
                           : 'bg-white shadow-sm text-[#101828] rounded-bl-none'
                       }`}
                     >
