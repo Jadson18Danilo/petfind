@@ -1,11 +1,6 @@
 {
+  "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/_app": "pages/_app.js",
-  "/": "pages/index.js",
-  "/register": "pages/register.js",
-  "/chat-off": "pages/chat-off.js",
-  "/login-off": "pages/login-off.js",
-  "/chat-on": "pages/chat-on.js",
   "/pet-register": "pages/pet-register.js"
 }

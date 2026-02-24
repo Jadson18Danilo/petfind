@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../src/components/Layout';
 import { getMe } from '../src/services/auth';
-import { listMessages, sendMessage, listMatches, markMessagesAsRead, getUnreadMessagesCount } from '../src/services/matches';
+import { listMessages, sendMessage, listMatches, markMessagesAsRead } from '../src/services/matches';
 
 export default function ChatOn() {
   const router = useRouter();
@@ -15,12 +15,22 @@ export default function ChatOn() {
   const [conversations, setConversations] = useState([]);
   const [messages, setMessages] = useState([]);
   const [userName, setUserName] = useState('');
+  const [currentUserId, setCurrentUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
   const activeConv = conversations.find((c) => c.id === activeConversation);
+
+  const mapMatchMessages = (data, userId) => {
+    return (Array.isArray(data) ? data : []).map((m) => ({
+      id: m.id,
+      text: m.text,
+      time: new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      isSent: Number(m.senderId) === Number(userId)
+    }));
+  };
 
   // Load user and conversations
   useEffect(() => {
@@ -30,6 +40,7 @@ export default function ChatOn() {
         const me = await getMe();
         if (!mounted) return;
         setUserName(me?.name || 'Usuário');
+        setCurrentUserId(me?.id || null);
 
         const data = await listMatches();
         if (!mounted) return;
@@ -114,7 +125,7 @@ export default function ChatOn() {
 
   // Load messages for active conversation
   useEffect(() => {
-    if (!activeConversation || activeConversation === 'support') return;
+    if (!activeConversation || activeConversation === 'support' || !currentUserId) return;
 
     let mounted = true;
     async function fetchMessages() {
@@ -124,20 +135,20 @@ export default function ChatOn() {
 
         const data = await listMessages(activeConversation);
         if (!mounted) return;
-        const mapped = (Array.isArray(data) ? data : []).map((m) => ({
-          id: m.id,
-          text: m.text,
-          time: new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-          isSent: m.senderId !== null
-        }));
+        const mapped = mapMatchMessages(data, currentUserId);
         setMessages(mapped);
       } catch (err) {
         console.error('Failed to load messages', err);
       }
     }
     fetchMessages();
-    return () => { mounted = false; };
-  }, [activeConversation]);
+
+    const intervalId = setInterval(fetchMessages, 3000);
+    return () => {
+      mounted = false;
+      clearInterval(intervalId);
+    };
+  }, [activeConversation, currentUserId]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

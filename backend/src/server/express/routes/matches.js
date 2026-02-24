@@ -173,10 +173,36 @@ router.get('/unread/count', async (req, res) => {
     const payload = verifyToken(token);
     const sequelize = await ensureDatabase();
 
+    const Pet = initPetModel(sequelize);
+    const Match = initMatchModel(sequelize);
     const Message = initMessageModel(sequelize);
+
+    const myPets = await Pet.findAll({ where: { ownerId: payload.id } });
+    const petIds = myPets.map((pet) => pet.id);
+
+    if (petIds.length === 0) {
+      return res.json({ count: 0 });
+    }
+
+    const myMatches = await Match.findAll({
+      attributes: ['id'],
+      where: {
+        [Op.or]: [
+          { petAId: { [Op.in]: petIds } },
+          { petBId: { [Op.in]: petIds } },
+        ],
+      },
+    });
+
+    const myMatchIds = myMatches.map((match) => match.id);
+
+    if (myMatchIds.length === 0) {
+      return res.json({ count: 0 });
+    }
 
     const unreadCount = await Message.count({
       where: {
+        matchId: { [Op.in]: myMatchIds },
         isRead: false,
         senderId: { [Op.ne]: payload.id },
       },
